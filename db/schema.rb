@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150817225956) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "projections", force: :cascade do |t|
     t.date     "present_date"
     t.decimal  "projected_rate"
