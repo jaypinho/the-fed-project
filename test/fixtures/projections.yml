@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  present_date: 2015-08-17
+  projected_rate: 9.99
+  fulfillment_date: 2015-08-17
+
+two:
+  present_date: 2015-08-17
+  projected_rate: 9.99
+  fulfillment_date: 2015-08-17
