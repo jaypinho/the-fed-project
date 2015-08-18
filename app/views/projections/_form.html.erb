@@ -11,5 +11,11 @@
     <%= f.label :fulfillment_date %>
     <%= f.date_select :fulfillment_date, {:start_year => 2012} %>
   </p>
+  <% if params[:action] == 'new' %>
+    <p>
+      <%= label_tag 'Number of projections' %>
+      <%= select_tag "voters", options_for_select((1..19).step(1)) %>
+    </p>
+  <% end %>
   <%= f.submit "Submit" %>
 <% end %>

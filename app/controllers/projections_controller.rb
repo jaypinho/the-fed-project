@@ -17,12 +17,11 @@ class ProjectionsController < ApplicationController
   end
 
   def create
-    @projection = Projection.new(projection_params)
-    if @projection.save
-      redirect_to @projection
-    else
-      render action: 'new'
+    (1..(params[:voters].to_i)).each do |x|
+      @projection = Projection.new(projection_params)
+      @projection.save
     end
+    redirect_to @projection
   end
 
   def update
