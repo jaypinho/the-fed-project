@@ -1,7 +1,11 @@
 <%= form_for @projection do |f| %>
   <p>
     <%= f.label :present_date %>
-    <%= f.date_select :present_date, {:start_year => 2012} %>
+    <% if params[:action] == 'new' %>
+      <%= f.date_select :present_date, {:start_year => 2012}, onblur: 'changeFulfillmentDate()' %>
+    <% else %>
+      <%= f.date_select :present_date, {:start_year => 2012} %>
+    <% end %>
   </p>
   <p>
     <%= f.label :projected_rate %>
@@ -18,4 +22,14 @@
     </p>
   <% end %>
   <%= f.submit "Submit" %>
+<% end %>
+
+<% if params[:action] == 'new' %>
+  <script>
+    function changeFulfillmentDate() {
+      document.getElementById('projection_fulfillment_date_1i').value = document.getElementById('projection_present_date_1i').value;
+      document.getElementById('projection_fulfillment_date_2i').value = 12;
+      document.getElementById('projection_fulfillment_date_3i').value = 31;
+    }
+  </script>
 <% end %>

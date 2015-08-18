@@ -21,7 +21,7 @@ class ProjectionsController < ApplicationController
       @projection = Projection.new(projection_params)
       @projection.save
     end
-    redirect_to @projection
+    redirect_to new_projection_path
   end
 
   def update
