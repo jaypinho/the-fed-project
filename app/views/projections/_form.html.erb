@@ -2,22 +2,22 @@
   <p>
     <%= f.label :present_date %>
     <% if params[:action] == 'new' %>
-      <%= f.date_select :present_date, {:start_year => 2012, :default => Projection.maximum(:present_date)} %>
+      <%= f.date_select :present_date, {:start_year => 2012, :default => Projection.maximum(:present_date)}, onblur: 'changeFulfillmentDate()' %>
     <% else %>
       <%= f.date_select :present_date, {:start_year => 2012} %>
     <% end %>
   </p>
   <p>
     <%= f.label :projected_rate %>
-    <% if params[:action] == 'new' %>
-      <%= f.number_field :projected_rate, {:step => 0.01, onblur: 'changeFulfillmentDate()'} %>
-    <% else %>
-      <%= f.number_field :projected_rate, {:step => 0.01} %>
-    <% end %>
+    <%= f.number_field :projected_rate, {:step => 0.01} %>
   </p>
   <p>
     <%= f.label :fulfillment_date %>
-    <%= f.date_select :fulfillment_date, {:start_year => 2012} %>
+    <% if params[:action] == 'new' %>
+      <%= f.date_select :fulfillment_date, {:start_year => 2012, :default => Projection.where(:present_date => Projection.maximum(:present_date)).maximum(:fulfillment_date)} %>
+    <% else %>
+      <%= f.date_select :fulfillment_date, {:start_year => 2012} %>
+    <% end %>
   </p>
   <% if params[:action] == 'new' %>
     <p>
@@ -28,12 +28,10 @@
   <%= f.submit "Submit" %>
 <% end %>
 
-<% if params[:action] == 'new' %>
-  <script>
-    function changeFulfillmentDate() {
-      document.getElementById('projection_fulfillment_date_1i').value = document.getElementById('projection_present_date_1i').value;
-      document.getElementById('projection_fulfillment_date_2i').value = 12;
-      document.getElementById('projection_fulfillment_date_3i').value = 31;
-    }
-  </script>
-<% end %>
+<script>
+  function changeFulfillmentDate() {
+    document.getElementById('projection_fulfillment_date_1i').value = document.getElementById('projection_present_date_1i').value;
+    document.getElementById('projection_fulfillment_date_2i').value = 12;
+    document.getElementById('projection_fulfillment_date_3i').value = 31;
+  }
+</script>
