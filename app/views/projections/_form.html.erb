@@ -1,0 +1,15 @@
+<%= form_for @projection do |f| %>
+  <p>
+    <%= f.label :present_date %>
+    <%= f.date_select :present_date, {:start_year => 2012} %>
+  </p>
+  <p>
+    <%= f.label :projected_rate %>
+    <%= f.number_field :projected_rate, {:step => 0.01} %>
+  </p>
+  <p>
+    <%= f.label :fulfillment_date %>
+    <%= f.date_select :fulfillment_date, {:start_year => 2012} %>
+  </p>
+  <%= f.submit "Submit" %>
+<% end %>

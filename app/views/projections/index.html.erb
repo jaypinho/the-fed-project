@@ -1,0 +1,17 @@
+<h1>Projections</h1>
+
+<% @projections.each do |projection| %>
+
+  <p>
+    <strong>Present Date:</strong> <%= projection.present_date %>
+  </p>
+
+  <p>
+    <strong>Projection Rate:</strong> <%= projection.projected_rate.to_s %>
+  </p>
+
+  <p>
+    <strong>Fulfillment Date:</strong> <%= projection.fulfillment_date %>
+  </p>
+
+<% end %>
