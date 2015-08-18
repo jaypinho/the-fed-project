@@ -2,14 +2,18 @@
   <p>
     <%= f.label :present_date %>
     <% if params[:action] == 'new' %>
-      <%= f.date_select :present_date, {:start_year => 2012}, onblur: 'changeFulfillmentDate()' %>
+      <%= f.date_select :present_date, {:start_year => 2012, :default => Projection.maximum(:present_date)} %>
     <% else %>
       <%= f.date_select :present_date, {:start_year => 2012} %>
     <% end %>
   </p>
   <p>
     <%= f.label :projected_rate %>
-    <%= f.number_field :projected_rate, {:step => 0.01} %>
+    <% if params[:action] == 'new' %>
+      <%= f.number_field :projected_rate, {:step => 0.01, onblur: 'changeFulfillmentDate()'} %>
+    <% else %>
+      <%= f.number_field :projected_rate, {:step => 0.01} %>
+    <% end %>
   </p>
   <p>
     <%= f.label :fulfillment_date %>
