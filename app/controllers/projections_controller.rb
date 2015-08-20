@@ -3,7 +3,14 @@ class ProjectionsController < ApplicationController
   before_action :set_projection, only: [:show, :edit, :update, :destroy]
 
   def index
-    @projections = Projection.all
+    @projections = Projection.where(:fulfillment_date => '2015-12-31')
+    @chart_data = []
+    @projections.each do |x|
+      @chart_data << {
+        x: (x.fulfillment_date - x.present_date).to_i,
+        y: (x.projected_rate - 0.125).to_f
+      }
+    end
   end
 
   def show

@@ -1,4 +1,39 @@
 <h1>Projections</h1>
+<script>
+nv.addGraph(function() {
+  var chart = nv.models.scatterChart()
+                .showDistX(true)
+                .showDistY(true)
+                .color(d3.scale.category10().range())
+                .forceY([5])
+                .forceX([0]);
+
+  chart.xAxis.tickFormat(d3.format('.02f'));
+  chart.yAxis.tickFormat(d3.format('.02f'));
+
+
+  d3.select('#chart svg')
+    .datum([{key: 'Projected Interest Rate', values: <%= raw @chart_data.to_json %>}])
+    .transition().duration(500)
+      .call(chart);
+
+  nv.utils.windowResize(chart.update);
+
+  return chart;
+
+});
+
+</script>
+
+<style>
+  #chart svg {
+    height: 400px;
+  }
+</style>
+
+<div id="chart">
+  <svg></svg>
+</div>
 
 <% @projections.each do |projection| %>
 
