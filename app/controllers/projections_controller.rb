@@ -11,6 +11,8 @@ class ProjectionsController < ApplicationController
         current_date = nil
         end_date = nil
         preliminary_chart_data = []
+        trim_num = params[:trim].to_i
+        trim_num = 7 if trim_num > 7
 
         @projections.each do |x|
 
@@ -26,7 +28,7 @@ class ProjectionsController < ApplicationController
 
           # We've moved on to a different set of projections (new date of projection, fulfillment, or both)
           else
-            @chart_data += preliminary_chart_data[(0 + params[:trim].to_i)..(-1 - params[:trim].to_i)]
+            @chart_data += preliminary_chart_data[(0 + trim_num)..(-1 - trim_num)]
 
             # Reset variables for next set of projections
             current_date = x.present_date
@@ -40,7 +42,7 @@ class ProjectionsController < ApplicationController
 
         end
 
-        @chart_data += preliminary_chart_data[(0 + params[:trim].to_i)..(-1 - params[:trim].to_i)]
+        @chart_data += preliminary_chart_data[(0 + trim_num)..(-1 - trim_num)]
 
       else
 
