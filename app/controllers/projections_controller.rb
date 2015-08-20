@@ -3,14 +3,56 @@ class ProjectionsController < ApplicationController
   before_action :set_projection, only: [:show, :edit, :update, :destroy]
 
   def index
-    @projections = Projection.where(:fulfillment_date => '2015-12-31')
+    @projections = Projection.where(:fulfillment_date => '2015-12-31').order(present_date: :asc, fulfillment_date: :asc, projected_rate: :asc)
     @chart_data = []
-    @projections.each do |x|
-      @chart_data << {
-        x: (x.fulfillment_date - x.present_date).to_i,
-        y: (x.projected_rate - 0.125).to_f
-      }
-    end
+
+      if params.has_key?(:trim) && params[:trim].to_i > 0
+
+        current_date = nil
+        end_date = nil
+        preliminary_chart_data = []
+
+        @projections.each do |x|
+
+          # Check if we're in the middle of a set of projections (projected on a certain date for a certain date)
+          if current_date.nil? || (current_date == x.present_date && end_date == x.fulfillment_date)
+            current_date = x.present_date if current_date.nil?
+            end_date = x.fulfillment_date if end_date.nil?
+
+            preliminary_chart_data << {
+              x: (x.fulfillment_date - x.present_date).to_i,
+              y: (x.projected_rate - 0.125).to_f
+            }
+
+          # We've moved on to a different set of projections (new date of projection, fulfillment, or both)
+          else
+            @chart_data += preliminary_chart_data[(0 + params[:trim].to_i)..(-1 - params[:trim].to_i)]
+
+            # Reset variables for next set of projections
+            current_date = x.present_date
+            end_date = x.fulfillment_date
+            preliminary_chart_data = [{
+              x: (x.fulfillment_date - x.present_date).to_i,
+              y: (x.projected_rate - 0.125).to_f
+            }]
+
+          end
+
+        end
+
+        @chart_data += preliminary_chart_data[(0 + params[:trim].to_i)..(-1 - params[:trim].to_i)]
+
+      else
+
+        @projections.each do |x|
+          @chart_data << {
+            x: (x.fulfillment_date - x.present_date).to_i,
+            y: (x.projected_rate - 0.125).to_f
+          }
+        end
+
+      end
+
   end
 
   def show
