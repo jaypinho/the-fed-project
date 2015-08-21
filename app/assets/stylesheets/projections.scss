@@ -2,13 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-html, body {
+html {
   height: 100%;
 }
 
-h1 {
-  font-family: 'Tahoma', sans-serif;
-  font-weight: normal;
+body {
+  height: 100%;
+  padding-top: 70px;
+  padding-bottom: 30px;
 }
 
 #chart {

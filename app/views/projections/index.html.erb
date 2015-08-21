@@ -1,4 +1,4 @@
-<h1>FOMC Projections</h1>
+<span class="label label-primary">FOMC Projections</span>
 <script>
 nv.addGraph(function() {
   var chart = nv.models.scatterChart()
@@ -29,9 +29,11 @@ nv.addGraph(function() {
   <svg></svg>
 </div>
 
-<%= form_tag({controller: 'projections', action: 'index'}, method: 'get', id: 'trim_form') do %>
+<%= form_tag({controller: 'projections', action: 'index'}, method: 'get', id: 'trim_form', class: 'form-inline') do %>
+  <div class="form-group">
   <%= label_tag(:trim, "How many outliers to exclude from each projection date/expiration date combination?") %>
-  <%= select_tag(:trim, options_for_select([0,1,2,3,4,5,6,7], params.has_key?(:trim) ? params[:trim].to_i : 0)) %>
+  <%= select_tag(:trim, options_for_select([0,1,2,3,4,5,6,7], params.has_key?(:trim) ? params[:trim].to_i : 0), class: "form-control") %>
+  </div>
 <% end %>
 
 <script>
