@@ -1,4 +1,4 @@
-<h1>Projections</h1>
+<h1>FOMC Projections</h1>
 <script>
 nv.addGraph(function() {
   var chart = nv.models.scatterChart()
@@ -8,8 +8,8 @@ nv.addGraph(function() {
                 .forceY([5])
                 .forceX([0]);
 
-  chart.xAxis.tickFormat(d3.format('.02f'));
-  chart.yAxis.tickFormat(d3.format('.02f'));
+  chart.xAxis.tickFormat(d3.format('.0f')).axisLabel('Days from Date of Projection to Expiration');
+  chart.yAxis.tickFormat(d3.format('.02f')).axisLabel('Projected vs. Actual Interest Rate Differential');
 
 
   d3.select('#chart svg')

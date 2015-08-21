@@ -1,5 +1,7 @@
 class ProjectionsController < ApplicationController
 
+  http_basic_authenticate_with :name => ENV['FED_USERNAME'], :password => ENV['FED_PASSWORD'], except: [:index]
+
   before_action :set_projection, only: [:show, :edit, :update, :destroy]
 
   def index
