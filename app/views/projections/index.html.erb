@@ -9,7 +9,7 @@ nv.addGraph(function() {
                 .forceX([0]);
 
   chart.xAxis.tickFormat(d3.format('.0f')).axisLabel('Days from Date of Projection to Expiration');
-  chart.yAxis.tickFormat(d3.format('.02f')).axisLabel('Projected vs. Actual Interest Rate Differential');
+  chart.yAxis.tickFormat(function(d){return d + '%'}).axisLabel('Projected vs. Actual Interest Rate Differential');
 
 
   d3.select('#chart svg')
