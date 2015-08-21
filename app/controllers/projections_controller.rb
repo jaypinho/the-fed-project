@@ -5,7 +5,7 @@ class ProjectionsController < ApplicationController
   before_action :set_projection, only: [:show, :edit, :update, :destroy]
 
   def index
-    @projections = Projection.where("fulfillment_date <= ?", Date.today).order(present_date: :asc, fulfillment_date: :asc, projected_rate: :asc)
+    @projections = Projection.select('projections.*, key_rates.actual_rate').where("fulfillment_date <= ?", Date.today).joins('LEFT JOIN key_rates on key_rates.rate_date = projections.fulfillment_date').order(present_date: :asc, fulfillment_date: :asc, projected_rate: :asc)
     @chart_data = []
 
       if params.has_key?(:trim) && params[:trim].to_i > 0
@@ -25,7 +25,7 @@ class ProjectionsController < ApplicationController
 
             preliminary_chart_data << {
               x: (x.present_date - x.fulfillment_date).to_i,
-              y: (x.projected_rate - KeyRate.where(:present_date => x.fulfillment_date).first.actual_rate).abs.to_f
+              y: (x.projected_rate - x.actual_rate).abs.to_f
             }
 
           # We've moved on to a different set of projections (new date of projection, fulfillment, or both)
@@ -37,7 +37,7 @@ class ProjectionsController < ApplicationController
             end_date = x.fulfillment_date
             preliminary_chart_data = [{
               x: (x.present_date - x.fulfillment_date).to_i,
-              y: (x.projected_rate - KeyRate.where(:present_date => x.fulfillment_date).first.actual_rate).abs.to_f
+              y: (x.projected_rate - x.actual_rate).abs.to_f
             }]
 
           end
@@ -51,7 +51,7 @@ class ProjectionsController < ApplicationController
         @projections.each do |x|
           @chart_data << {
             x: (x.present_date - x.fulfillment_date).to_i,
-            y: (x.projected_rate - KeyRate.where(:present_date => x.fulfillment_date).first.actual_rate).abs.to_f
+            y: (x.projected_rate - x.actual_rate).abs.to_f
           }
         end
 
