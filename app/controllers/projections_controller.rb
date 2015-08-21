@@ -5,7 +5,7 @@ class ProjectionsController < ApplicationController
   before_action :set_projection, only: [:show, :edit, :update, :destroy]
 
   def index
-    @projections = Projection.where("fulfillment_date < '2019-12-31'").order(present_date: :asc, fulfillment_date: :asc, projected_rate: :asc)
+    @projections = Projection.where("fulfillment_date <= ?", Date.today).order(present_date: :asc, fulfillment_date: :asc, projected_rate: :asc)
     @chart_data = []
 
       if params.has_key?(:trim) && params[:trim].to_i > 0
