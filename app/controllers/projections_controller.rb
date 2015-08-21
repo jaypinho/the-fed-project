@@ -23,7 +23,7 @@ class ProjectionsController < ApplicationController
 
             preliminary_chart_data << {
               x: (x.present_date - x.fulfillment_date).to_i,
-              y: (x.projected_rate - 0.125).to_f
+              y: (x.projected_rate - 0.125).abs.to_f
             }
 
           # We've moved on to a different set of projections (new date of projection, fulfillment, or both)
@@ -35,7 +35,7 @@ class ProjectionsController < ApplicationController
             end_date = x.fulfillment_date
             preliminary_chart_data = [{
               x: (x.present_date - x.fulfillment_date).to_i,
-              y: (x.projected_rate - 0.125).to_f
+              y: (x.projected_rate - 0.125).abs.to_f
             }]
 
           end
@@ -49,7 +49,7 @@ class ProjectionsController < ApplicationController
         @projections.each do |x|
           @chart_data << {
             x: (x.present_date - x.fulfillment_date).to_i,
-            y: (x.projected_rate - 0.125).to_f
+            y: (x.projected_rate - 0.125).abs.to_f
           }
         end
 

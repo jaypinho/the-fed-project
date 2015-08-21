@@ -13,7 +13,7 @@ nv.addGraph(function() {
 
 
   d3.select('#chart svg')
-    .datum([{key: 'Projected Interest Rate', values: <%= raw @chart_data.to_json %>}])
+    .datum([{key: 'Projected vs. Actual Interest Rate Differential', values: <%= raw @chart_data.to_json %>}])
     .transition().duration(500)
       .call(chart);
 
@@ -24,12 +24,6 @@ nv.addGraph(function() {
 });
 
 </script>
-
-<style>
-  #chart svg {
-    height: 400px;
-  }
-</style>
 
 <div id="chart">
   <svg></svg>
