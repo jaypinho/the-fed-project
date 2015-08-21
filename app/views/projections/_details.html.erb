@@ -1,0 +1,44 @@
+<strong>This project was created by <%= link_to "Jay Pinho", "https://twitter.com/jaypinho", :target => "_blank" %>
+in August 2015.</strong>
+<p>&nbsp;</p>
+<p/>
+The <%= link_to "Federal Open Market Committee", "http://www.federalreserve.gov/monetarypolicy/fomc.htm", :target => "_blank" %>
+released its first interest rate projections following its January 2012 meetings. These predictions of the
+<%= link_to "federal funds rate", "http://www.federalreserve.gov/monetarypolicy/fomc.htm", :target => "_blank" %>,
+"the interest rate at which depository institutions lend balances at the Federal Reserve to other depository institutions overnight",
+were designed to increase the Federal Reserve's transparency and to help align market expectations on future monetary policy.
+<p/>
+That first year, the Federal Reserve projected future interest rates on five separate occasions: every year since,
+it has followed a quarterly schedule and thus four projections are released annually.
+<p/>
+In <%= link_to "the FOMC's words", "http://www.federalreserve.gov/monetarypolicy/fomcprojtabl20150617.htm", :target => "_blank" %>,
+each of these projections represents:
+<blockquote>
+  ...an individual participant's judgment of the midpoint of the appropriate target range for the federal funds rate
+  or the appropriate target level for the federal funds rate at the end of the specified calendar year
+  or over the longer run.
+</blockquote>
+Since the FOMC began projecting future interest rates, FOMC participants have issued <%= number_with_delimiter(Projection.count) %>
+individual projections. That is, if today Janet Yellen projects that the "appropriate target level" for the federal funds rate at
+the end of 2016 is 2.00%, that would count as one projection.
+<p/>
+The chart above displays every individual projection made since the Federal Reserve began issuing them in 2012, with the exception of
+projections for dates in the future: that is, beyond <strong><%= Date.today.strftime("%B %e, %Y") %></strong>. The x-axis displays
+the number of days between the projection and its expiration. That is, to reuse the above example, a Janet Yellen projection today of
+the interest rate on the last day of 2016 would show up as <strong>-<%= ('2016-12-31'.to_date - Date.today).to_i %></strong> on the
+x-axis. (The negative sign is because the projection occurs <em>before</em> the date for which the rate is being projected.)
+<p/>
+The y-axis, meanwhile, displays the differential between the projected rate and the actual rate on that day for each individual
+projection. Actual daily federal funds rates are
+<%= link_to "provided by the Federal Reserve", "https://research.stlouisfed.org/fred2/series/DFF", :target => "_blank" %>.
+<p/>
+Finally, the outliers dropdown, located below the chart, allows users to remove the highest and lowest projections for all combinations of
+projection dates. That is, a selection of 2 would remove the highest 2 <strong>and</strong> the lowest 2 projections for every combination
+of projection dates and expiration dates. For example, the highest 2 and lowest 2 rates from the September 2014 projections for
+the end of 2015 would be excluded, as well as the highest 2 and lowest 2 rates from the September 2014 projections for the end of 2016,
+the highest 2 and lowest 2 of the March 2015 projections for the end of 2016, and so on.
+<p/>
+I plan to add many more features and charts before long, but this is just the start. Please don't hesitate to
+<%= link_to "get in touch", "https://twitter.com/jaypinho", :target => "_blank" %> and send me suggestions!
+<p/>
+Thanks for visiting.

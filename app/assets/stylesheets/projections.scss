@@ -13,8 +13,19 @@ body {
 }
 
 #chart {
-  height: 80%;
+  height: 85%;
 }
 #chart svg {
   height: 100%;
+}
+
+#details {
+  background-color: #E6EBFA;
+  border-color: #B2B2B2;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 8px;
+  margin: 20px;
+  padding: 10px;
+  display: none;
 }

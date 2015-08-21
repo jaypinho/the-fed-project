@@ -36,8 +36,21 @@ nv.addGraph(function() {
   </div>
 <% end %>
 
+<%= link_to "More Details", "#", :onclick => "$(showDetails())", :role => "button", class: "btn btn-info" %>
+<div id="details"></div>
+
 <script>
   document.getElementById('trim').addEventListener('change', function() {
     document.getElementById('trim_form').submit();
-  }, false)
+  }, false);
+
+  function showDetails() {
+
+    if ($('#details').is(':empty')) {
+      $('#details').empty().append("<%= escape_javascript(render partial: 'details') %>").hide().slideDown('fast');
+    } else {
+      $('#details').slideUp('fast').empty();
+    }
+
+  }
 </script>
