@@ -11,16 +11,23 @@ body {
 }
 
 /* line 15, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+div#buttondiv {
+  top: 10px;
+  position: relative;
+  float: right;
+}
+
+/* line 21, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
 #chart {
   height: 85%;
 }
 
-/* line 18, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+/* line 24, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
 #chart svg {
   height: 100%;
 }
 
-/* line 22, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+/* line 28, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
 #details {
   background-color: #E6EBFA;
   border-color: #B2B2B2;
