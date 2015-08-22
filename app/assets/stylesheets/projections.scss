@@ -12,6 +12,12 @@ body {
   padding-bottom: 30px;
 }
 
+div#buttondiv {
+  top: 10px;
+  position: relative;
+  float: right;
+}
+
 #chart {
   height: 85%;
 }
@@ -28,8 +34,4 @@ body {
   margin: 20px;
   padding: 10px;
   display: none;
-}
-
-div#buttondiv {
-  top: 10px; position: relative; float: right;
 }
