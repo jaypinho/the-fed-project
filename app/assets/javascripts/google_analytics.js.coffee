@@ -6,16 +6,17 @@ class @GoogleAnalytics
       i['GoogleAnalyticsObject'] = r
       i[r] = i[r] or ->
         (i[r].q = i[r].q or []).push arguments
-        return
 
       i[r].l = 1 * new Date
+
       a = s.createElement(o)
       m = s.getElementsByTagName(o)[0]
+
       a.async = 1
       a.src = g
       m.parentNode.insertBefore a, m
-      return
     ) window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga'
+    ga "create", @analyticsId, "auto"
 
     # If Turbolinks is supported, set up a callback to track pageviews on page:change.
     # If it isn't supported, just track the pageview now.
@@ -28,7 +29,7 @@ class @GoogleAnalytics
 
   @trackPageview: (url) ->
     unless GoogleAnalytics.isLocalRequest()
-      ga('send', 'pageview')
+      ga "send", "pageview"
 
   @isLocalRequest: ->
     GoogleAnalytics.documentDomainIncludes "local"
