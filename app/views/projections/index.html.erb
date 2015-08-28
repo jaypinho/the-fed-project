@@ -1,33 +1,96 @@
-<span class="label label-primary">FOMC Projections</span>
+<span class="label label-primary">FOMC Projections and Actual Rates</span>
+
+<div id="fed_chart">
+</div>
+
+<span class="label label-primary">FOMC Projection Discrepancies</span>
+
+<div id="fed_chart2">
+</div>
+
 <script>
-nv.addGraph(function() {
-  var chart = nv.models.scatterChart()
-                .showDistX(true)
-                .showDistY(true)
-                .color(d3.scale.category10().range())
-                .forceY([5])
-                .forceX([0]);
+  var fed_chart = c3.generate({
+    bindto: '#fed_chart',
+    data: {
+      xs: {
+        'Actual Rate': 'x1',
+        'Projected Rate': 'x2'
+      },
+      columns: [
+        <%= raw ['x1'].concat(@date_info) %>,
+        <%= raw ['x2'].concat(@chart_data.collect { |x| x[:projected_date] }) %>,
+        <%= raw ['Actual Rate'].concat(@rate_info) %>,
+        <%= raw ['Projected Rate'].concat(@chart_data.collect { |x| x[:projected_rate] }) %>
+      ]
+    },
+    zoom: {
+      enabled: true
+    },
+    axis: {
+      x: {
+        type: 'timeseries',
+        tick: {
+          format: '%Y-%m-%d',
+          fit: false
+        },
+        label: {
+          text: 'Dates',
+          position: 'outer-right'
+        }
+      },
+      y: {
+        label: {
+          text: 'Interest Rates',
+          position: 'outer-top'
+        }
+      }
+    },
+    tooltip: {
+      format: {
+        title: function(d) { return d3.time.format("%B %e, %Y")(d) },
+        value: function(d) { return d + "%" }
+      }
+    }
+  });
 
-  chart.xAxis.tickFormat(d3.format('.0f')).axisLabel('Days from Date of Projection to Expiration');
-  chart.yAxis.tickFormat(function(d){return d + '%'}).axisLabel('Projected vs. Actual Interest Rate Differential');
-
-
-  d3.select('#chart svg')
-    .datum([{key: 'Projected vs. Actual Interest Rate Differential', values: <%= raw @chart_data.to_json %>}])
-    .transition().duration(500)
-      .call(chart);
-
-  nv.utils.windowResize(chart.update);
-
-  return chart;
-
-});
+  var fed_chart2 = c3.generate({
+    bindto: '#fed_chart2',
+    data: {
+      xs: {
+        Projections: 'Projections_x'
+      },
+      columns: [
+        <%= raw ['Projections_x'].concat(@chart_data.collect { |x| x[:days_in_advance] }) %>,
+        <%= raw ['Projections'].concat(@chart_data.collect { |x| x[:projection_discrepancy] }) %>
+      ],
+      type: 'scatter'
+    },
+    axis: {
+      x: {
+        label: {
+          text: 'Days from Date of Projection to Expiration',
+          position: 'outer-right'
+        },
+        tick: {
+          fit: false
+        }
+      },
+      y: {
+        label: {
+          text: 'Projected vs. Actual Interest Rates Differential',
+          position: 'outer-top'
+        }
+      }
+    },
+    tooltip: {
+      format: {
+        title: function(d) { return Math.abs(d) + " Days Prior" },
+        value: function(d) { return d + "%  Discrepancy" }
+      }
+    }
+  });
 
 </script>
-
-<div id="chart">
-  <svg></svg>
-</div>
 
 <%= form_tag({controller: 'projections', action: 'index'}, method: 'get', id: 'trim_form', class: 'form-inline') do %>
   <div class="form-group">

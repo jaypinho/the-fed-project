@@ -22,7 +22,10 @@ Since the FOMC began projecting future interest rates, FOMC participants have is
 individual projections. That is, if today Janet Yellen projects that the "appropriate target level" for the federal funds rate at
 the end of 2016 is 2.00%, that would count as one projection.
 <p/>
-The chart above displays every individual projection made since the Federal Reserve began issuing them in 2012, with the exception of
+The first chart above displays all projected and actual rates over time since the Federal Reserve began issusing projections in early 2012. The x-axis
+displays dates, and the y-axis displays the interest rates (both projected and actual).
+<p/>
+The second chart above displays every individual projection made since the Federal Reserve began issuing them, with the exception of
 projections for dates in the future: that is, beyond <strong><%= Date.today.strftime("%B %e, %Y") %></strong>. The x-axis displays
 the number of days between the projection and its expiration. That is, to reuse the above example, a Janet Yellen projection today of
 the interest rate on the last day of 2016 would show up as <strong>-<%= ('2016-12-31'.to_date - Date.today).to_i %></strong> on the
@@ -32,11 +35,11 @@ The y-axis, meanwhile, displays the differential between the projected rate and 
 projection. Actual daily federal funds rates are
 <%= link_to "provided by the Federal Reserve", "https://research.stlouisfed.org/fred2/series/DFF", :target => "_blank" %>.
 <p/>
-Finally, the outliers dropdown, located below the chart, allows users to remove the highest and lowest projections for all combinations of
+Finally, the outliers dropdown, located below both charts, allows users to remove the highest and lowest projections for all combinations of
 projection dates. That is, a selection of 2 would remove the highest 2 <strong>and</strong> the lowest 2 projections for every combination
 of projection dates and expiration dates. For example, the highest 2 and lowest 2 rates from the September 2014 projections for
 the end of 2015 would be excluded, as well as the highest 2 and lowest 2 rates from the September 2014 projections for the end of 2016,
-the highest 2 and lowest 2 of the March 2015 projections for the end of 2016, and so on.
+the highest 2 and lowest 2 of the March 2015 projections for the end of 2016, and so on. This filter applies to both charts.
 <p/>
 I plan to add many more features and charts before long, but this is just the start. Please don't hesitate to
 <%= link_to "get in touch", "https://twitter.com/jaypinho", :target => "_blank" %> and send me suggestions!

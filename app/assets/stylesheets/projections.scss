@@ -18,13 +18,6 @@ div#buttondiv {
   float: right;
 }
 
-#chart {
-  height: 85%;
-}
-#chart svg {
-  height: 100%;
-}
-
 #details {
   background-color: #E6EBFA;
   border-color: #B2B2B2;
@@ -33,5 +26,9 @@ div#buttondiv {
   border-radius: 8px;
   margin: 20px;
   padding: 10px;
+  display: none;
+}
+
+#fed_chart .c3-line-Projected-Rate, #fed_chart .c3-circles-Actual-Rate {
   display: none;
 }

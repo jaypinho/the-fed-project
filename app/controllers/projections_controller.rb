@@ -24,8 +24,10 @@ class ProjectionsController < ApplicationController
             end_date = x.fulfillment_date if end_date.nil?
 
             preliminary_chart_data << {
-              x: (x.present_date - x.fulfillment_date).to_i,
-              y: (x.projected_rate - x.actual_rate).abs.to_f
+              days_in_advance: (x.present_date - x.fulfillment_date).to_i,
+              projection_discrepancy: (x.projected_rate - x.actual_rate).abs.to_f,
+              projected_date: x.fulfillment_date.strftime('%Y-%m-%d'),
+              projected_rate: x.projected_rate.to_f
             }
 
           # We've moved on to a different set of projections (new date of projection, fulfillment, or both)
@@ -36,8 +38,10 @@ class ProjectionsController < ApplicationController
             current_date = x.present_date
             end_date = x.fulfillment_date
             preliminary_chart_data = [{
-              x: (x.present_date - x.fulfillment_date).to_i,
-              y: (x.projected_rate - x.actual_rate).abs.to_f
+              days_in_advance: (x.present_date - x.fulfillment_date).to_i,
+              projection_discrepancy: (x.projected_rate - x.actual_rate).abs.to_f,
+              projected_date: x.fulfillment_date.strftime('%Y-%m-%d'),
+              projected_rate: x.projected_rate.to_f
             }]
 
           end
@@ -50,12 +54,18 @@ class ProjectionsController < ApplicationController
 
         @projections.each do |x|
           @chart_data << {
-            x: (x.present_date - x.fulfillment_date).to_i,
-            y: (x.projected_rate - x.actual_rate).abs.to_f
+            days_in_advance: (x.present_date - x.fulfillment_date).to_i,
+            projection_discrepancy: (x.projected_rate - x.actual_rate).abs.to_f,
+            projected_date: x.fulfillment_date.strftime('%Y-%m-%d'),
+            projected_rate: x.projected_rate.to_f
           }
         end
 
       end
+
+    @rate_info = []
+    @date_info = []
+    KeyRate.all.each{|x| @date_info << x.rate_date.strftime('%Y-%m-%d'); @rate_info << x.actual_rate.to_f}
 
   end
 
