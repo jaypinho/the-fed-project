@@ -1,6 +1,8 @@
 desc "This task adds the daily federal funds rate to the database"
 task :grab_daily_fed_funds_rate => :environment do
 
+  require 'net/http'
+
   x = Net::HTTP.get_response(URI("https://api.stlouisfed.org/fred/series/observations?series_id=DFF&sort_order=desc&limit=5&api_key=#{ENV['FEDERAL_RESERVE_API_KEY']}&file_type=json"))
 
   if x.code == '200' && JSON.parse(x.body).has_key?('observations')
