@@ -57,7 +57,7 @@
     tooltip: {
       format: {
         title: function(d) { return d3.time.format("%B %e, %Y")(d) },
-        name: function (name, ratio, id, index) { return name + " on " + begin_date[index]; },
+        name: function (name, ratio, id, index) { if(name === 'Projected Rate') { return name + " on " + begin_date[index]; } else { return name; } },
         value: function(d) { return d + "%" }
       },
       grouped: false

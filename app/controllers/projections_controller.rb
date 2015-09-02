@@ -68,7 +68,7 @@ class ProjectionsController < ApplicationController
 
     @rate_info = []
     @date_info = []
-    KeyRate.all.each{|x| @date_info << x.rate_date.strftime('%Y-%m-%d'); @rate_info << x.actual_rate.to_f}
+    KeyRate.all.order(rate_date: :asc).each{|x| @date_info << x.rate_date.strftime('%Y-%m-%d'); @rate_info << x.actual_rate.to_f}
 
   end
 
