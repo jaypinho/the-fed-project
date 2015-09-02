@@ -9,6 +9,10 @@
 </div>
 
 <script>
+
+  var days_in_advance = <%= raw @chart_data.collect { |x| x[:days_in_advance] } %>;
+  var begin_date = <%= raw @chart_data.collect { |x| x[:date_of_projection] } %>;
+
   var fed_chart = c3.generate({
     bindto: '#fed_chart',
     data: {
@@ -21,7 +25,12 @@
         <%= raw ['x2'].concat(@chart_data.collect { |x| x[:projected_date] }) %>,
         <%= raw ['Actual Rate'].concat(@rate_info) %>,
         <%= raw ['Projected Rate'].concat(@chart_data.collect { |x| x[:projected_rate] }) %>
-      ]
+      ],
+      xSort: false,
+      color: function (color, d) {
+            // d will be 'id' when called for legends
+            return d.id && d.id === 'Projected Rate' ? d3.rgb(color).brighter(-days_in_advance[d.index] / 250) : color;
+        }
     },
     zoom: {
       enabled: true
@@ -48,8 +57,10 @@
     tooltip: {
       format: {
         title: function(d) { return d3.time.format("%B %e, %Y")(d) },
+        name: function (name, ratio, id, index) { return name + " on " + begin_date[index]; },
         value: function(d) { return d + "%" }
-      }
+      },
+      grouped: false
     }
   });
 

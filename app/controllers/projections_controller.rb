@@ -27,7 +27,8 @@ class ProjectionsController < ApplicationController
               days_in_advance: (x.present_date - x.fulfillment_date).to_i,
               projection_discrepancy: (x.projected_rate - x.actual_rate).abs.to_f,
               projected_date: x.fulfillment_date.strftime('%Y-%m-%d'),
-              projected_rate: x.projected_rate.to_f
+              projected_rate: x.projected_rate.to_f,
+              date_of_projection: x.present_date.strftime('%B %e, %Y')
             }
 
           # We've moved on to a different set of projections (new date of projection, fulfillment, or both)
@@ -41,7 +42,8 @@ class ProjectionsController < ApplicationController
               days_in_advance: (x.present_date - x.fulfillment_date).to_i,
               projection_discrepancy: (x.projected_rate - x.actual_rate).abs.to_f,
               projected_date: x.fulfillment_date.strftime('%Y-%m-%d'),
-              projected_rate: x.projected_rate.to_f
+              projected_rate: x.projected_rate.to_f,
+              date_of_projection: x.present_date.strftime('%B %e, %Y')
             }]
 
           end
@@ -57,7 +59,8 @@ class ProjectionsController < ApplicationController
             days_in_advance: (x.present_date - x.fulfillment_date).to_i,
             projection_discrepancy: (x.projected_rate - x.actual_rate).abs.to_f,
             projected_date: x.fulfillment_date.strftime('%Y-%m-%d'),
-            projected_rate: x.projected_rate.to_f
+            projected_rate: x.projected_rate.to_f,
+            date_of_projection: x.present_date.strftime('%B %e, %Y')
           }
         end
 
