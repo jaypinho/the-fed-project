@@ -1,143 +1,151 @@
-<span class="label label-primary">FOMC Projections and Actual Rates</span>
+<div class="col-xs-12 col-md-8" style="height:100%;">
 
-<div id="fed_chart">
-</div>
+  <span class="label label-primary">FOMC Projections and Actual Rates</span>
 
-<span class="label label-primary">FOMC Projection Discrepancies</span>
-
-<div id="fed_chart2">
-</div>
-
-<script>
-
-  var days_in_advance = <%= raw @chart_data.collect { |x| x[:days_in_advance] } %>;
-  var begin_date = <%= raw @chart_data.collect { |x| x[:date_of_projection] } %>;
-
-  var fed_chart = c3.generate({
-    bindto: '#fed_chart',
-    data: {
-      xs: {
-        'Actual Rate': 'x1',
-        'Projected Rate': 'x2'
-      },
-      columns: [
-        <%= raw ['x1'].concat(@date_info) %>,
-        <%= raw ['x2'].concat(@chart_data.collect { |x| x[:projected_date] }) %>,
-        <%= raw ['Actual Rate'].concat(@rate_info) %>,
-        <%= raw ['Projected Rate'].concat(@chart_data.collect { |x| x[:projected_rate] }) %>
-      ],
-      xSort: false,
-      color: function (color, d) {
-        // d will be 'id' when called for legends
-        return d.id && d.id === 'Projected Rate' ? d3.rgb(color).brighter(-days_in_advance[d.index] / 365) : color;
-      }
-    },
-    zoom: {
-      enabled: true
-    },
-    axis: {
-      x: {
-        type: 'timeseries',
-        tick: {
-          format: '%Y-%m-%d',
-          fit: false
-        },
-        label: {
-          text: 'Dates',
-          position: 'outer-right'
-        }
-      },
-      y: {
-        label: {
-          text: 'Interest Rates',
-          position: 'outer-top'
-        }
-      }
-    },
-    tooltip: {
-      format: {
-        title: function(d) { return d3.time.format("%B %e, %Y")(d) },
-        name: function (name, ratio, id, index) { if(name === 'Projected Rate') { return name + " on " + begin_date[index]; } else { return name; } },
-        value: function(d) { return d + "%" }
-      },
-      grouped: false
-    }
-  });
-
-  var fed_chart2 = c3.generate({
-    bindto: '#fed_chart2',
-    data: {
-      xs: {
-        Projections: 'Projections_x',
-        Regression: 'Regression_x'
-      },
-      columns: [
-        <%= raw ['Projections_x'].concat(@chart2_data.collect { |x| x[:days_in_advance] }) %>,
-        <%= raw ['Projections'].concat(@chart2_data.collect { |x| x[:projection_discrepancy] }) %>,
-        ['Regression_x', <%= @regression_data[:lowest_x] %> , 0],
-        ['Regression', <%= (@regression_slope * @regression_data[:lowest_x]) + @y_intercept %> , <%= @y_intercept %>]
-      ],
-      type: 'scatter',
-      types: {
-        Regression: 'line'
-      },
-      colors: {
-        Regression: '#BCB8B8'
-      }
-    },
-    axis: {
-      x: {
-        label: {
-          text: 'Days from Date of Projection to Expiration',
-          position: 'outer-right'
-        },
-        tick: {
-          fit: false
-        }
-      },
-      y: {
-        label: {
-          text: 'Projected vs. Actual Interest Rates Differential',
-          position: 'outer-top'
-        }
-      }
-    },
-    tooltip: {
-      format: {
-        title: function(d) { return Math.abs(d) + " Days Prior" },
-        value: function(d) { return d3.round(d, 3) + "%  Discrepancy" }
-      },
-      grouped: false
-    },
-    legend: {
-      hide: ['Regression']
-    }
-  });
-
-</script>
-
-<%= form_tag({controller: 'projections', action: 'index'}, method: 'get', id: 'trim_form', class: 'form-inline') do %>
-  <div class="form-group">
-  <%= label_tag(:trim, "How many outliers to exclude from each projection date/expiration date combination?") %>
-  <%= select_tag(:trim, options_for_select([0,1,2,3,4,5,6,7], params.has_key?(:trim) ? params[:trim].to_i : 0), class: "form-control") %>
+  <div id="fed_chart">
   </div>
-<% end %>
 
-<%= link_to "More Details", "#", :onclick => "$(showDetails())", :role => "button", class: "btn btn-info" %>
-<div id="details"></div>
+  <span class="label label-primary">FOMC Projection Discrepancies</span>
 
-<script>
-  document.getElementById('trim').addEventListener('change', function() {
-    document.getElementById('trim_form').submit();
-  }, false);
+  <div id="fed_chart2">
+  </div>
 
-  function showDetails() {
+  <script>
 
-    if ($('#details').is(':empty')) {
-      $('#details').empty().append("<%= escape_javascript(render partial: 'details') %>").hide().slideDown('fast');
-    } else {
-      $('#details').slideUp('fast').empty();
+    var days_in_advance = <%= raw @chart_data.collect { |x| x[:days_in_advance] } %>;
+    var begin_date = <%= raw @chart_data.collect { |x| x[:date_of_projection] } %>;
+
+    var fed_chart = c3.generate({
+      bindto: '#fed_chart',
+      data: {
+        xs: {
+          'Actual Rate': 'x1',
+          'Projected Rate': 'x2'
+        },
+        columns: [
+          <%= raw ['x1'].concat(@date_info) %>,
+          <%= raw ['x2'].concat(@chart_data.collect { |x| x[:projected_date] }) %>,
+          <%= raw ['Actual Rate'].concat(@rate_info) %>,
+          <%= raw ['Projected Rate'].concat(@chart_data.collect { |x| x[:projected_rate] }) %>
+        ],
+        xSort: false,
+        color: function (color, d) {
+          // d will be 'id' when called for legends
+          return d.id && d.id === 'Projected Rate' ? d3.rgb(color).brighter(-days_in_advance[d.index] / 365) : color;
+        }
+      },
+      zoom: {
+        enabled: true
+      },
+      axis: {
+        x: {
+          type: 'timeseries',
+          tick: {
+            format: '%Y-%m-%d',
+            fit: false
+          },
+          label: {
+            text: 'Dates',
+            position: 'outer-right'
+          }
+        },
+        y: {
+          label: {
+            text: 'Interest Rates',
+            position: 'outer-top'
+          }
+        }
+      },
+      tooltip: {
+        format: {
+          title: function(d) { return d3.time.format("%B %e, %Y")(d) },
+          name: function (name, ratio, id, index) { if(name === 'Projected Rate') { return name + " on " + begin_date[index]; } else { return name; } },
+          value: function(d) { return d + "%" }
+        },
+        grouped: false
+      }
+    });
+
+    var fed_chart2 = c3.generate({
+      bindto: '#fed_chart2',
+      data: {
+        xs: {
+          Projections: 'Projections_x',
+          Regression: 'Regression_x'
+        },
+        columns: [
+          <%= raw ['Projections_x'].concat(@chart2_data.collect { |x| x[:days_in_advance] }) %>,
+          <%= raw ['Projections'].concat(@chart2_data.collect { |x| x[:projection_discrepancy] }) %>,
+          ['Regression_x', <%= @regression_data[:lowest_x] %> , 0],
+          ['Regression', <%= (@regression_slope * @regression_data[:lowest_x]) + @y_intercept %> , <%= @y_intercept %>]
+        ],
+        type: 'scatter',
+        types: {
+          Regression: 'line'
+        },
+        colors: {
+          Regression: '#BCB8B8'
+        }
+      },
+      axis: {
+        x: {
+          label: {
+            text: 'Days from Date of Projection to Expiration',
+            position: 'outer-right'
+          },
+          tick: {
+            fit: false
+          }
+        },
+        y: {
+          label: {
+            text: 'Projected vs. Actual Interest Rates Differential',
+            position: 'outer-top'
+          }
+        }
+      },
+      tooltip: {
+        format: {
+          title: function(d) { return Math.abs(d) + " Days Prior" },
+          value: function(d) { return d3.round(d, 3) + "%  Discrepancy" }
+        },
+        grouped: false
+      },
+      legend: {
+        hide: ['Regression']
+      }
+    });
+
+  </script>
+
+  <%= form_tag({controller: 'projections', action: 'index'}, method: 'get', id: 'trim_form', class: 'form-inline') do %>
+    <div class="form-group">
+    <%= label_tag(:trim, "How many outliers to exclude from each projection date/expiration date combination?") %>
+    <%= select_tag(:trim, options_for_select([0,1,2,3,4,5,6,7], params.has_key?(:trim) ? params[:trim].to_i : 0), class: "form-control") %>
+    </div>
+  <% end %>
+
+  <%= link_to "More Details", "#", :onclick => "$(showDetails())", :role => "button", class: "btn btn-info" %>
+  <div id="details"></div>
+
+  <script>
+    document.getElementById('trim').addEventListener('change', function() {
+      document.getElementById('trim_form').submit();
+    }, false);
+
+    function showDetails() {
+
+      if ($('#details').is(':empty')) {
+        $('#details').empty().append("<%= escape_javascript(render partial: 'details') %>").hide().slideDown('fast');
+      } else {
+        $('#details').slideUp('fast').empty();
+      }
+
     }
+  </script>
 
-  }
-</script>
+</div>
+
+<div class="col-md-4 hidden-xs hidden-sm" style="height:100%;">
+  <a class="twitter-timeline" href="https://twitter.com/TheFedProject/lists/fed-watchers" data-widget-id="639864180619636736" height="90%">Tweets from https://twitter.com/TheFedProject/lists/fed-watchers</a>
+</div>
