@@ -68,13 +68,22 @@
     bindto: '#fed_chart2',
     data: {
       xs: {
-        Projections: 'Projections_x'
+        Projections: 'Projections_x',
+        Regression: 'Regression_x'
       },
       columns: [
         <%= raw ['Projections_x'].concat(@chart_data.collect { |x| x[:days_in_advance] }) %>,
-        <%= raw ['Projections'].concat(@chart_data.collect { |x| x[:projection_discrepancy] }) %>
+        <%= raw ['Projections'].concat(@chart_data.collect { |x| x[:projection_discrepancy] }) %>,
+        ['Regression_x', <%= @regression_data[:lowest_x] %> , 0],
+        ['Regression', <%= (@regression_slope * @regression_data[:lowest_x]) + @y_intercept %> , <%= @y_intercept %>]
       ],
-      type: 'scatter'
+      type: 'scatter',
+      types: {
+        Regression: 'line'
+      },
+      colors: {
+        Regression: '#BCB8B8'
+      }
     },
     axis: {
       x: {
@@ -96,8 +105,12 @@
     tooltip: {
       format: {
         title: function(d) { return Math.abs(d) + " Days Prior" },
-        value: function(d) { return d + "%  Discrepancy" }
-      }
+        value: function(d) { return d3.round(d, 3) + "%  Discrepancy" }
+      },
+      grouped: false
+    },
+    legend: {
+      hide: ['Regression']
     }
   });
 

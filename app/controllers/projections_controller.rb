@@ -70,6 +70,38 @@ class ProjectionsController < ApplicationController
     @date_info = []
     KeyRate.all.order(rate_date: :asc).each{|x| @date_info << x.rate_date.strftime('%Y-%m-%d'); @rate_info << x.actual_rate.to_f}
 
+    @regression_data = {
+      sum_of_x: 0,
+      sum_of_y: 0,
+      sum_of_x_2: 0,
+      sum_of_x_times_y: 0,
+      n_total: 0,
+      lowest_x: 0
+    }
+
+    @chart_data.each do |x|
+      @regression_data[:sum_of_x] += x[:days_in_advance].abs
+      @regression_data[:sum_of_y] += x[:projection_discrepancy]
+      @regression_data[:sum_of_x_2] += x[:days_in_advance].abs ** 2
+      @regression_data[:sum_of_x_times_y] += x[:days_in_advance].abs * x[:projection_discrepancy]
+      @regression_data[:n_total] += 1
+      @regression_data[:lowest_x] = x[:days_in_advance] if x[:days_in_advance] < @regression_data[:lowest_x]
+    end
+
+    @regression_slope = (
+                          @regression_data[:sum_of_x_times_y] -
+                          ((@regression_data[:sum_of_x] * @regression_data[:sum_of_y]) /
+                          @regression_data[:n_total])
+                          ) /
+                        (
+                          @regression_data[:sum_of_x_2] -
+                          ((@regression_data[:sum_of_x] ** 2) /
+                          @regression_data[:n_total])
+                        )
+
+    @regression_slope = -@regression_slope
+    @y_intercept = @chart_data[0][:projection_discrepancy] - (@regression_slope * @chart_data[0][:days_in_advance].abs)
+
   end
 
   def show
