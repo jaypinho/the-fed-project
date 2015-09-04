@@ -5,7 +5,7 @@ class ProjectionsController < ApplicationController
   before_action :set_projection, only: [:show, :edit, :update, :destroy]
 
   def index
-    @projections = Projection.select('projections.*, key_rates.actual_rate').where("fulfillment_date <= ?", Date.today).joins('LEFT JOIN key_rates on key_rates.rate_date = projections.fulfillment_date').order(present_date: :asc, fulfillment_date: :asc, projected_rate: :asc)
+    @projections = Projection.select('projections.*, key_rates.actual_rate').where("fulfillment_date < ?", '2025-12-31').joins('LEFT JOIN key_rates on key_rates.rate_date = projections.fulfillment_date').order(present_date: :asc, fulfillment_date: :asc, projected_rate: :asc)
     @chart_data = []
 
       if params.has_key?(:trim) && params[:trim].to_i > 0
@@ -25,7 +25,7 @@ class ProjectionsController < ApplicationController
 
             preliminary_chart_data << {
               days_in_advance: (x.present_date - x.fulfillment_date).to_i,
-              projection_discrepancy: (x.projected_rate - x.actual_rate).abs.to_f,
+              projection_discrepancy: (x.actual_rate.nil? ? nil : (x.projected_rate - x.actual_rate).abs.to_f),
               projected_date: x.fulfillment_date.strftime('%Y-%m-%d'),
               projected_rate: x.projected_rate.to_f,
               date_of_projection: x.present_date.strftime('%B %e, %Y')
@@ -40,7 +40,7 @@ class ProjectionsController < ApplicationController
             end_date = x.fulfillment_date
             preliminary_chart_data = [{
               days_in_advance: (x.present_date - x.fulfillment_date).to_i,
-              projection_discrepancy: (x.projected_rate - x.actual_rate).abs.to_f,
+              projection_discrepancy: (x.actual_rate.nil? ? nil : (x.projected_rate - x.actual_rate).abs.to_f),
               projected_date: x.fulfillment_date.strftime('%Y-%m-%d'),
               projected_rate: x.projected_rate.to_f,
               date_of_projection: x.present_date.strftime('%B %e, %Y')
@@ -57,7 +57,7 @@ class ProjectionsController < ApplicationController
         @projections.each do |x|
           @chart_data << {
             days_in_advance: (x.present_date - x.fulfillment_date).to_i,
-            projection_discrepancy: (x.projected_rate - x.actual_rate).abs.to_f,
+            projection_discrepancy: (x.actual_rate.nil? ? nil : (x.projected_rate - x.actual_rate).abs.to_f),
             projected_date: x.fulfillment_date.strftime('%Y-%m-%d'),
             projected_rate: x.projected_rate.to_f,
             date_of_projection: x.present_date.strftime('%B %e, %Y')
@@ -79,7 +79,11 @@ class ProjectionsController < ApplicationController
       lowest_x: 0
     }
 
+    @chart2_data = []
+
     @chart_data.each do |x|
+      next if x[:projection_discrepancy].nil?
+      @chart2_data << x
       @regression_data[:sum_of_x] += x[:days_in_advance].abs
       @regression_data[:sum_of_y] += x[:projection_discrepancy]
       @regression_data[:sum_of_x_2] += x[:days_in_advance].abs ** 2
@@ -100,7 +104,7 @@ class ProjectionsController < ApplicationController
                         )
 
     @regression_slope = -@regression_slope
-    @y_intercept = @chart_data[0][:projection_discrepancy] - (@regression_slope * @chart_data[0][:days_in_advance].abs)
+    @y_intercept = @chart2_data[0][:projection_discrepancy] - (@regression_slope * @chart2_data[0][:days_in_advance].abs)
 
   end
 

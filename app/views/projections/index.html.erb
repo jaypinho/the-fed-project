@@ -28,9 +28,9 @@
       ],
       xSort: false,
       color: function (color, d) {
-            // d will be 'id' when called for legends
-            return d.id && d.id === 'Projected Rate' ? d3.rgb(color).brighter(-days_in_advance[d.index] / 250) : color;
-        }
+        // d will be 'id' when called for legends
+        return d.id && d.id === 'Projected Rate' ? d3.rgb(color).brighter(-days_in_advance[d.index] / 365) : color;
+      }
     },
     zoom: {
       enabled: true
@@ -72,8 +72,8 @@
         Regression: 'Regression_x'
       },
       columns: [
-        <%= raw ['Projections_x'].concat(@chart_data.collect { |x| x[:days_in_advance] }) %>,
-        <%= raw ['Projections'].concat(@chart_data.collect { |x| x[:projection_discrepancy] }) %>,
+        <%= raw ['Projections_x'].concat(@chart2_data.collect { |x| x[:days_in_advance] }) %>,
+        <%= raw ['Projections'].concat(@chart2_data.collect { |x| x[:projection_discrepancy] }) %>,
         ['Regression_x', <%= @regression_data[:lowest_x] %> , 0],
         ['Regression', <%= (@regression_slope * @regression_data[:lowest_x]) + @y_intercept %> , <%= @y_intercept %>]
       ],
