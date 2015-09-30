@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  url: MyString
+  summary: MyText
+  lean: MyString
+  pub_date: 2015-09-30
+  statement_date: 2015-09-30
+  member_id: 
+
+two:
+  url: MyString
+  summary: MyText
+  lean: MyString
+  pub_date: 2015-09-30
+  statement_date: 2015-09-30
+  member_id: 
