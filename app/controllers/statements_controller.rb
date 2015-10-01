@@ -1,0 +1,3 @@
+class StatementsController < ApplicationController
+
+end

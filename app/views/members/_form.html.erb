@@ -1,0 +1,25 @@
+<%= form_for @member do |f| %>
+
+  <p>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.label :member_type %>
+    <%= f.text_field :member_type %>
+  </p>
+
+  <p>
+    <%= f.label :dob %>
+    <%= f.date_select :dob %>
+  </p>
+
+  <p>
+    <%= f.label :bio %>
+    <%= f.text_area :bio %>
+  </p>
+
+  <%= f.submit "Submit" %>
+  
+<% end %>
