@@ -1,0 +1,28 @@
+<div class="col-xs-12">
+
+<h1>Statements</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Summary</th>
+      <th>Lean</th>
+      <th>Statement Date</th>
+      <th>Publication Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @statements.each do |statement| %>
+    <tr>
+      <td><%= statement.member.name %></td>
+      <td><%= statement.summary %> <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, statement.url, :target => "_blank" %></td>
+      <td><%= statement.lean %></td>
+      <td><%= statement.statement_date %></td>
+      <td><%= statement.pub_date %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>

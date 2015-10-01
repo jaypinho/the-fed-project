@@ -2,21 +2,25 @@
 
 <h1>Members</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Member Type</th>
-    <th>Date of Birth</th>
-    <th>Biography</th>
-  </tr>
-  <% @members.each do |member| %>
-  <tr>
-    <td><%= member.name %></td>
-    <td><%= member.member_type %></td>
-    <td><%= member.dob %></td>
-    <td><%= member.bio %></td>
-  </tr>
-  <% end %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Member Type</th>
+      <th>Date of Birth</th>
+      <th>Biography</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @members.each do |member| %>
+    <tr>
+      <td><%= member.name %></td>
+      <td><%= member.member_type %></td>
+      <td><%= member.dob %></td>
+      <td><%= member.bio %></td>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
 
 </div>

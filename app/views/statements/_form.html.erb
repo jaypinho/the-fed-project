@@ -1,0 +1,34 @@
+<%= form_for @statement do |f| %>
+
+  <p>
+    <%= f.collection_select(:member_id, Member.all, :id, :name) %>
+  </p>
+
+  <p>
+    <%= f.label :summary %>
+    <%= f.text_area :summary %>
+  </p>
+
+  <p>
+    <%= f.label :url %>
+    <%= f.text_field :url %>
+  </p>
+
+  <p>
+    <%= f.label :lean %>
+    <%= f.text_field :lean %>
+  </p>
+
+  <p>
+    <%= f.label :statement_date %>
+    <%= f.date_select :statement_date %>
+  </p>
+
+  <p>
+    <%= f.label :pub_date %>
+    <%= f.date_select :pub_date %>
+  </p>
+
+  <%= f.submit "Submit" %>
+
+<% end %>

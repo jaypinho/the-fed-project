@@ -1,0 +1,25 @@
+<div class="col-xs-12">
+
+<h1>Statement</h1>
+
+<p>
+  <strong>Name:</strong> <%= @statement.member.name %>
+</p>
+
+<p>
+  <strong>Summary:</strong> <%= @statement.summary %> <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, @statement.url, :target => "_blank" %>
+</p>
+
+<p>
+  <strong>Lean:</strong> <%= @statement.lean %>
+</p>
+
+<p>
+  <strong>Statement Date:</strong> <%= @statement.statement_date %>
+</p>
+
+<p>
+  <strong>Publication Date:</strong> <%= @statement.pub_date %>
+</p>
+
+</div>
