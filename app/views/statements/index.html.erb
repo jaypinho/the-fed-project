@@ -15,7 +15,7 @@
   <tbody>
     <% @statements.each do |statement| %>
     <tr>
-      <td><%= statement.member.name %></td>
+      <td><%= link_to statement.member.name, member_path(statement.member) %></td>
       <td><%= statement.summary %> <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, statement.url, :target => "_blank" %></td>
       <td><%= statement.lean %></td>
       <td><%= statement.statement_date %></td>

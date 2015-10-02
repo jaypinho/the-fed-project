@@ -14,7 +14,7 @@
   <tbody>
     <% @members.each do |member| %>
     <tr>
-      <td><%= member.name %></td>
+      <td><%= link_to member.name, member_path(member) %></td>
       <td><%= member.member_type %></td>
       <td><%= member.dob %></td>
       <td><%= member.bio %></td>

@@ -147,5 +147,32 @@
 </div>
 
 <div class="col-md-3 hidden-xs hidden-sm" style="height:100%;">
-  <a class="twitter-timeline" href="https://twitter.com/TheFedProject/lists/fed-watchers" data-widget-id="639864180619636736" height="90%">Tweets from https://twitter.com/TheFedProject/lists/fed-watchers</a>
+
+  <span class="label label-primary">Recent Statements</span>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Summary</th>
+        <th>Lean</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Statement.order(statement_date: :desc).limit(5).each do |statement| %>
+      <tr>
+        <td><%= link_to statement.member.name, member_path(statement.member) %></td>
+        <td><%= statement.summary %> <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, statement.url, :target => "_blank" %></td>
+        <td><%= statement.lean %></td>
+        <td><%= statement.statement_date %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <p>&nbsp;</p>
+  <span class="label label-primary">Tweets by Fed Watchers</span>
+  <p>&nbsp;</p>
+  <a class="twitter-timeline" href="https://twitter.com/TheFedProject/lists/fed-watchers" data-widget-id="639864180619636736" height="60%">Tweets from https://twitter.com/TheFedProject/lists/fed-watchers</a>
+
 </div>
