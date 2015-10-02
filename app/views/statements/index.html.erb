@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @statements.each do |statement| %>
+    <% @statements.order(statement_date: :desc).each do |statement| %>
     <tr>
       <td><%= link_to statement.member.name, member_path(statement.member) %></td>
       <td><%= statement.summary %> <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, statement.url, :target => "_blank" %></td>
