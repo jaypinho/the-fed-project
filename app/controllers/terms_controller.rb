@@ -42,7 +42,7 @@ def set_term
 end
 
 def term_params
-  params.require(:term).permit(:start_date, :end_date, :term, :voting, :member_id)
+  params.require(:term).permit(:start_date, :end_date, :member_id)
 end
 
 end
