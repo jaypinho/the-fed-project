@@ -4,7 +4,7 @@
 
 <%= form_tag({controller: 'statements', action: 'index'}, method: 'get', id: 'filter_form', class: 'form-inline') do %>
   <div class="form-group">
-  <%= label_tag(:filter, "Exclude non-voting members") %>
+  <%= label_tag(:filter, "Exclude non-voting members (at time of statement)") %>
   <%= check_box_tag(:filter, "true", params.has_key?(:filter) ? true : false) %>
   </div>
 <% end %>
