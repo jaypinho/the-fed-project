@@ -6,7 +6,7 @@ class StatementsController < ApplicationController
 
   def index
     if params.has_key?(:filter)
-      @statements = Statement.joins('JOIN terms on terms.member_id = statements.member_id').where('statements.statement_date BETWEEN terms.start_date AND terms.end_date')
+      @statements = Statement.joins('JOIN terms on terms.member_id = statements.member_id').where('(statements.statement_date BETWEEN terms.start_date AND terms.end_date) OR (statements.statement_date >= terms.start_date AND terms.end_date IS NULL)')
     else
       @statements = Statement.all
     end
