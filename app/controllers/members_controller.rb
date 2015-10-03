@@ -49,7 +49,7 @@ def set_member
 end
 
 def member_params
-  params.require(:member).permit(:name, :member_type, :dob, :bio)
+  params.require(:member).permit(:name, :member_type, :start_date, :end_date, :dob, :bio)
 end
 
 end

@@ -148,7 +148,7 @@
 
 <div class="col-md-3 hidden-xs hidden-sm" style="height:100%;">
 
-  <span class="label label-primary">Recent Statements</span>
+  <span class="label label-primary"><%= link_to "Recent Statements", statements_path, style: "all: inherit" %></span>
 
   <table class="table table-striped">
     <thead>
@@ -171,7 +171,7 @@
     </tbody>
   </table>
   <p>&nbsp;</p>
-  <span class="label label-primary">Tweets by Fed Watchers</span>
+  <span class="label label-primary"><%= link_to "Tweets by Fed Watchers", "https://twitter.com/TheFedProject/lists/fed-watchers", {style: "all: inherit", target: "_blank"} %></span>
   <p>&nbsp;</p>
   <a class="twitter-timeline" href="https://twitter.com/TheFedProject/lists/fed-watchers" data-widget-id="639864180619636736" height="60%">Tweets from https://twitter.com/TheFedProject/lists/fed-watchers</a>
 

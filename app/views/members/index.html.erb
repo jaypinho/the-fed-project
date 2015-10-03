@@ -7,6 +7,8 @@
     <tr>
       <th>Name</th>
       <th>Member Type</th>
+      <th>Term Start</th>
+      <th>Term End</th>
       <th>Date of Birth</th>
       <th>Biography</th>
     </tr>
@@ -16,6 +18,8 @@
     <tr>
       <td><%= link_to member.name, member_path(member) %></td>
       <td><%= member.member_type %></td>
+      <td><%= member.start_date %></td>
+      <td><%= member.end_date %></td>
       <td><%= member.dob %></td>
       <td><%= member.bio %></td>
     </tr>
