@@ -24,6 +24,25 @@
 
 <h3>Statements</h3>
 
+<%= form_tag({controller: 'members', action: 'show'}, method: 'get', id: 'filter_form', class: 'form-inline') do %>
+  <div class="form-group">
+  <%= label_tag(:filter, "Exclude statements made during non-voting periods") %>
+  <%= check_box_tag(:filter, "true", params.has_key?(:filter) ? true : false) %>
+  </div>
+<% end %>
+
+<script>
+  document.getElementById('filter').addEventListener('change', function() {
+    document.getElementById('filter_form').submit();
+  }, false);
+</script>
+
+<% if params.has_key?(:filter) %>
+  <% member_statements = @member.statements.joins('JOIN terms on terms.member_id = statements.member_id').where('(statements.statement_date BETWEEN terms.start_date AND terms.end_date) OR (statements.statement_date >= terms.start_date AND terms.end_date IS NULL)').order(statement_date: :desc) %>
+<% else %>
+  <% member_statements = @member.statements.order(statement_date: :desc) %>
+<% end %>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -34,7 +53,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @member.statements.order(statement_date: :desc).each do |statement| %>
+    <% member_statements.each do |statement| %>
     <tr>
       <td><%= statement.summary %> <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, statement.url, :target => "_blank" %></td>
       <td><%= statement.lean %></td>
