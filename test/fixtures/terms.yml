@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_date: 2015-10-02
+  end_date: 2015-10-02
+  term: 1
+  voting: false
+  member_id: 
+
+two:
+  start_date: 2015-10-02
+  end_date: 2015-10-02
+  term: 1
+  voting: false
+  member_id: 

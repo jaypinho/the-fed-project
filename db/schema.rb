@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003001611) do
+ActiveRecord::Schema.define(version: 20151003005859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,5 +55,18 @@ ActiveRecord::Schema.define(version: 20151003001611) do
 
   add_index "statements", ["member_id"], name: "index_statements_on_member_id", using: :btree
 
+  create_table "terms", force: :cascade do |t|
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "term"
+    t.boolean  "voting"
+    t.integer  "member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "terms", ["member_id"], name: "index_terms_on_member_id", using: :btree
+
   add_foreign_key "statements", "members"
+  add_foreign_key "terms", "members"
 end

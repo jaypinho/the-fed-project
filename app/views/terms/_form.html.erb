@@ -1,0 +1,31 @@
+<%= form_for @term do |f| %>
+
+  <div class="field form-group">
+    <%= f.collection_select(:member_id, Member.all, :id, :name) %>
+  </div>
+
+  <div class="field form-group">
+    <%= f.label :term %>
+    <%= f.number_field :term, class: "form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= f.label :voting %>
+    <%= f.check_box :voting %>
+  </div>
+
+  <div class="field form-group">
+    <%= f.label :start_date %>
+    <%= f.date_select :start_date %>
+  </div>
+
+  <div class="field form-group">
+    <%= f.label :end_date %>
+    <%= f.date_select :end_date %>
+  </div>
+
+  <div class="field form-group">
+    <%= f.submit("Submit", class: "btn btn-primary") %>
+  </div>
+
+<% end %>

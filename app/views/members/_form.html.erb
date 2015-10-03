@@ -1,35 +1,37 @@
 <%= form_for @member do |f| %>
 
-  <p>
+  <div class="field form-group">
     <%= f.label :name %>
-    <%= f.text_field :name %>
-  </p>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
 
-  <p>
+  <div class="field form-group">
     <%= f.label :member_type %>
-    <%= f.text_field :member_type %>
-  </p>
+    <%= f.text_field :member_type, class: "form-control" %>
+  </div>
 
-  <p>
+  <div class="field form-group">
     <%= f.label :start_date %>
     <%= f.date_select :start_date, {:start_year => 1920, :end_year => 2040, :include_blank => true} %>
-  </p>
+  </div>
 
-  <p>
+  <div class="field form-group">
     <%= f.label :end_date %>
     <%= f.date_select :end_date, {:start_year => 1920, :end_year => 2040, :include_blank => true} %>
-  </p>
+  </div>
 
-  <p>
+  <div class="field form-group">
     <%= f.label :dob %>
     <%= f.date_select :dob, {:start_year => 1920, :end_year => 1990, :include_blank => true} %>
-  </p>
+  </div>
 
-  <p>
+  <div class="field form-group">
     <%= f.label :bio %>
-    <%= f.text_area :bio %>
-  </p>
+    <%= f.text_area :bio, class: "form-control" %>
+  </div>
 
-  <%= f.submit "Submit" %>
+  <div class="field form-group">
+    <%= f.submit("Submit", class: "btn btn-primary") %>
+  </div>
 
 <% end %>

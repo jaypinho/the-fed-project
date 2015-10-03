@@ -1,34 +1,36 @@
 <%= form_for @statement do |f| %>
 
-  <p>
+  <div class="field form-group">
     <%= f.collection_select(:member_id, Member.all, :id, :name) %>
-  </p>
+  </div>
 
-  <p>
+  <div class="field form-group">
     <%= f.label :summary %>
-    <%= f.text_area :summary %>
-  </p>
+    <%= f.text_area :summary, class: "form-control" %>
+  </div>
 
-  <p>
+  <div class="field form-group">
     <%= f.label :url %>
-    <%= f.text_field :url %>
-  </p>
+    <%= f.text_field :url, class: "form-control" %>
+  </div>
 
-  <p>
+  <div class="field form-group">
     <%= f.label :lean %>
-    <%= f.text_field :lean %>
-  </p>
+    <%= f.text_field :lean, class: "form-control" %>
+  </div>
 
-  <p>
+  <div class="field form-group">
     <%= f.label :statement_date %>
     <%= f.date_select :statement_date %>
-  </p>
+  </div>
 
-  <p>
+  <div class="field form-group">
     <%= f.label :pub_date %>
     <%= f.date_select :pub_date %>
-  </p>
+  </div>
 
-  <%= f.submit "Submit" %>
+  <div class="field form-group">
+    <%= f.submit("Submit", class: "btn btn-primary") %>
+  </div>
 
 <% end %>
