@@ -6,12 +6,12 @@
 
   <div class="field form-group">
     <%= f.label :start_date %>
-    <%= f.date_select :start_date %>
+    <%= f.date_select :start_date, {:start_year => 2040, :end_year => 1920, :include_blank => true} %>
   </div>
 
   <div class="field form-group">
     <%= f.label :end_date %>
-    <%= f.date_select :end_date %>
+    <%= f.date_select :end_date, {:start_year => 2040, :end_year => 1920, :include_blank => true} %>
   </div>
 
   <div class="field form-group">
