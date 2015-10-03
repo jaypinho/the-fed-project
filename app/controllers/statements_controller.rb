@@ -5,7 +5,11 @@ class StatementsController < ApplicationController
   before_action :set_statement, only: [:show, :edit, :update, :destroy]
 
   def index
-    @statements = Statement.all
+    if params.has_key?(:filter)
+      @statements = Statement.joins('JOIN terms on terms.member_id = statements.member_id').where('statements.statement_date BETWEEN terms.start_date AND terms.end_date')
+    else
+      @statements = Statement.all
+    end
   end
 
   def show
