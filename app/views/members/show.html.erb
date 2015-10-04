@@ -1,26 +1,29 @@
 <div class="col-xs-12">
 
 <h1><%= @member.name %></h1>
-
+<em><%= @member.member_type %></em>
+<p>&nbsp;</p>
 <p>
-  <strong>Member Type:</strong> <%= @member.member_type %>
+  <strong>Joined the Federal Reserve:</strong> <%= @member.start_date %>
 </p>
 
+<% unless @member.end_date.nil? %>
 <p>
-  <strong>Term Start:</strong> <%= @member.start_date %>
+  <strong>Left the Federal Reserve:</strong> <%= @member.end_date %>
 </p>
+<% end %>
 
-<p>
-  <strong>Term End:</strong> <%= @member.end_date %>
-</p>
-
+<% unless @member.dob.nil? %>
 <p>
   <strong>Date of Birth:</strong> <%= @member.dob %>
 </p>
+<% end %>
 
+<% unless @member.bio.nil? || @member.bio == "" %>
 <p>
   <strong>Biography:</strong> <%= @member.bio %>
 </p>
+<% end %>
 
 <h3>Statements</h3>
 
