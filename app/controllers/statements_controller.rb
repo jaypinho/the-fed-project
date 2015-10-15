@@ -5,11 +5,7 @@ class StatementsController < ApplicationController
   before_action :set_statement, only: [:show, :edit, :update, :destroy]
 
   def index
-    if params.has_key?(:filter)
-      @statements = Statement.joins('JOIN terms on terms.member_id = statements.member_id').where('(statements.statement_date BETWEEN terms.start_date AND terms.end_date) OR (statements.statement_date >= terms.start_date AND terms.end_date IS NULL)')
-    else
-      @statements = Statement.all
-    end
+    @statements = Statement.exclude_non_voting(params[:filter]).exclude_similar_to_prior(params[:filter_when_prior])
   end
 
   def show
@@ -53,7 +49,7 @@ class StatementsController < ApplicationController
   end
 
   def statement_params
-    params.require(:statement).permit(:url, :summary, :lean, :pub_date, :statement_date, :member_id)
+    params.require(:statement).permit(:url, :summary, :lean, :pub_date, :statement_date, :similar_to_prior, :member_id)
   end
 
 end

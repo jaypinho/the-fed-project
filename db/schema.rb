@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003181340) do
+ActiveRecord::Schema.define(version: 20151014120556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,8 +49,9 @@ ActiveRecord::Schema.define(version: 20151003181340) do
     t.date     "pub_date"
     t.date     "statement_date"
     t.integer  "member_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "similar_to_prior", default: false
   end
 
   add_index "statements", ["member_id"], name: "index_statements_on_member_id", using: :btree

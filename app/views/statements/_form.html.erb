@@ -20,6 +20,11 @@
   </div>
 
   <div class="field form-group">
+    <%= f.label "Substantially similar to prior statement(s)" %>
+    <%= f.check_box :similar_to_prior %>
+  </div>
+
+  <div class="field form-group">
     <%= f.label :statement_date %>
     <%= f.date_select :statement_date %>
   </div>
