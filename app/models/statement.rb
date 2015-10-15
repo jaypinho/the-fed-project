@@ -17,12 +17,4 @@ class Statement < ActiveRecord::Base
     end
   end
 
-  scope :from_specific_member, ->(specific_member) do
-    unless specific_member.nil? || specific_member.blank?
-      where("member_id = ?", specific_member)
-    else
-      all
-    end
-  end
-
 end
