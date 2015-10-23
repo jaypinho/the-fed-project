@@ -5,7 +5,7 @@
 <%= form_tag({controller: 'statements', action: 'index'}, method: 'get', id: 'filter_form', class: 'form-inline') do %>
   <span class="glyphicon glyphicon-minus"></span>
   <div class="form-group">
-  <%= label_tag(:filter, "Exclude non-voting members (at time of statement)") %>
+  <%= label_tag(:filter, "Exclude non-voting members at time of statement") %>
   <%= check_box_tag(:filter, "true", params.has_key?(:filter) ? true : false) %>
   </div>
   &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-minus"></span>
@@ -35,9 +35,11 @@
     </tr>
   </thead>
   <tbody>
+    <% counter = 0 %>
     <% @statements.order(statement_date: :desc).each do |statement| %>
+    <% counter += 1 %>
     <tr>
-      <td><%= link_to statement.member.name, member_path(statement.member) %></td>
+      <td><span class="badge"><%= link_to counter.to_s, statement_path(statement), style: "all: inherit" %></span>&nbsp;&nbsp;<%= link_to statement.member.name, member_path(statement.member) %></td>
       <td><%= statement.summary %> <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, statement.url, :target => "_blank" %></td>
       <td><%= statement.lean %></td>
       <td><%= statement.statement_date %></td>
@@ -46,7 +48,6 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link_to "All Members", members_path %>
-
+<%= link_to "All Members", members_path, class: "btn btn-default" %>
+<p/>
 </div>

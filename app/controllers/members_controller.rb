@@ -5,7 +5,7 @@ http_basic_authenticate_with :name => ENV['FED_USERNAME'], :password => ENV['FED
 before_action :set_member, only: [:show, :edit, :update, :destroy]
 
 def index
-  @members = Member.all
+  @members = Member.all.order(name: :asc)
 end
 
 def show
