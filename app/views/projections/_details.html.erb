@@ -24,7 +24,7 @@ the end of 2016 is 2.00%, that would count as one projection.
 <p/>
 The first chart above displays all projected and actual rates over time since the Federal Reserve began issusing projections in early 2012.
 The second chart displays every individual projection made since the Federal Reserve began issuing them, with the exception of
-projections for dates in the future: that is, beyond <strong><%= Date.today.strftime("%B %e, %Y") %></strong>. The x-axis displays
+projections for dates in the future: that is, beyond <strong><%= Time.use_zone('America/New_York') { Date.today.strftime("%B %e, %Y") } %></strong>. The x-axis displays
 the number of days between the projection and its expiration. That is, to reuse the above example, a Janet Yellen projection today of
 the interest rate on the last day of 2016 would show up as <strong>-<%= ('2016-12-31'.to_date - Date.today).to_i %></strong> on the
 x-axis. (The negative sign is because the projection occurs <em>before</em> the date for which the rate is being projected.)
