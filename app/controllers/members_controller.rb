@@ -6,9 +6,17 @@ before_action :set_member, only: [:show, :edit, :update, :destroy]
 
 def index
   @members = Member.all.order(name: :asc)
+  respond_to do |format|
+    format.html
+    format.json { render json: @members }
+  end
 end
 
 def show
+  respond_to do |format|
+    format.html
+    format.json
+  end
 end
 
 def new

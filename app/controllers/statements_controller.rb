@@ -6,9 +6,17 @@ class StatementsController < ApplicationController
 
   def index
     @statements = Statement.exclude_non_voting(params[:filter]).exclude_similar_to_prior(params[:filter_when_prior])
+    respond_to do |format|
+      format.html
+      format.json { render json: @statements }
+    end
   end
 
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @statement }
+    end
   end
 
   def new
