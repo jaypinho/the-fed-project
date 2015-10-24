@@ -42,8 +42,8 @@
       <td><span class="badge"><%= link_to counter.to_s, statement_path(statement), style: "all: inherit" %></span>&nbsp;&nbsp;<%= link_to statement.member.name, member_path(statement.member) %></td>
       <td><%= statement.summary %> <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, statement.url, :target => "_blank" %></td>
       <td><%= statement.lean %></td>
-      <td><%= statement.statement_date %></td>
-      <td><%= statement.pub_date %></td>
+      <td><%= statement.statement_date.strftime("%B %-d, %Y") unless statement.statement_date.nil? %></td>
+      <td><%= statement.pub_date.strftime("%B %-d, %Y") unless statement.pub_date.nil? %></td>
     </tr>
     <% end %>
   </tbody>

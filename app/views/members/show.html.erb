@@ -3,19 +3,21 @@
 <h1><%= @member.name %></h1>
 <em><%= @member.member_type %></em>
 <p>&nbsp;</p>
+<% unless @member.start_date.nil? %>
 <p>
-  <strong>Joined the Federal Reserve:</strong> <%= @member.start_date %>
+  <strong>Joined the Federal Reserve:</strong> <%= @member.start_date.strftime("%B %-d, %Y") %>
 </p>
+<% end %>
 
 <% unless @member.end_date.nil? %>
 <p>
-  <strong>Left the Federal Reserve:</strong> <%= @member.end_date %>
+  <strong>Left the Federal Reserve:</strong> <%= @member.end_date.strftime("%B %-d, %Y") %>
 </p>
 <% end %>
 
 <% unless @member.dob.nil? %>
 <p>
-  <strong>Date of Birth:</strong> <%= @member.dob %>
+  <strong>Date of Birth:</strong> <%= @member.dob.strftime("%B %-d, %Y") %>
 </p>
 <% end %>
 
@@ -46,7 +48,7 @@
   }, false);
   document.getElementById('filter_when_prior').addEventListener('change', function() {
     document.getElementById('filter_form').submit();
-  }, false);  
+  }, false);
 </script>
 
 <% member_statements = @member.statements.exclude_non_voting(params[:filter]).exclude_similar_to_prior(params[:filter_when_prior]).order(statement_date: :desc) %>
@@ -61,9 +63,11 @@
     </tr>
   </thead>
   <tbody>
+    <% counter = 0 %>
     <% member_statements.each do |statement| %>
+    <% counter += 1 %>
     <tr>
-      <td><%= statement.summary %> <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, statement.url, :target => "_blank" %></td>
+      <td><span class="badge"><%= link_to counter.to_s, statement_path(statement), style: "all: inherit" %></span>&nbsp;&nbsp;<%= statement.summary %> <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, statement.url, :target => "_blank" %></td>
       <td><%= statement.lean %></td>
       <td><%= statement.statement_date %></td>
       <td><%= statement.pub_date %></td>
@@ -72,8 +76,7 @@
   </tbody>
 </table>
 
-<%= link_to "All Members", members_path %>
-<br>
-<%= link_to "All Statements", statements_path %>
+<%= link_to "All Members", members_path, class: "btn btn-default" %>
+<%= link_to "All Statements", statements_path, class: "btn btn-default" %>
 
 </div>
