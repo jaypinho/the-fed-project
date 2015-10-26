@@ -36,7 +36,7 @@
   </thead>
   <tbody>
     <% counter = 0 %>
-    <% @statements.order(statement_date: :desc).each do |statement| %>
+    <% @statements.each do |statement| %>
     <% counter += 1 %>
     <tr>
       <td><span class="badge"><%= link_to counter.to_s, statement_path(statement), style: "all: inherit" %></span>
