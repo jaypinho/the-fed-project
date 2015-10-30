@@ -5,7 +5,7 @@ http_basic_authenticate_with :name => ENV['FED_USERNAME'], :password => ENV['FED
 before_action :set_member, only: [:show, :edit, :update, :destroy]
 
 def index
-  @members = Member.all.order(name: :asc)
+  @members = Member.only_include_current_voters(params[:voting_members_only]).order(name: :asc)
   respond_to do |format|
     format.html
     format.json { render json: @members }

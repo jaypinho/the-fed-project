@@ -2,6 +2,20 @@
 
 <h1>Members</h1>
 
+<%= form_tag({controller: 'members', action: 'index'}, method: 'get', id: 'filter_form', class: 'form-inline') do %>
+  <span class="glyphicon glyphicon-minus"></span>
+  <div class="form-group">
+  <%= label_tag(:voting_members_only, "Only include currently voting members") %>
+  <%= check_box_tag(:voting_members_only, "true", params.has_key?(:voting_members_only) ? true : false) %>
+  </div>
+<% end %>
+
+<script>
+  document.getElementById('voting_members_only').addEventListener('change', function() {
+    document.getElementById('filter_form').submit();
+  }, false);
+</script>
+
 <table class="table table-striped">
   <thead>
     <tr>
