@@ -17,4 +17,12 @@ class Statement < ActiveRecord::Base
     end
   end
 
+  scope :exclude_non_voting_as_of_now, ->(nonvoting) do
+    unless nonvoting.nil? || nonvoting.blank?
+      joins('JOIN terms on terms.member_id = statements.member_id').where('(now()::date BETWEEN terms.start_date AND terms.end_date) OR (now()::date >= terms.start_date AND terms.end_date IS NULL)')
+    else
+      all
+    end
+  end
+
 end

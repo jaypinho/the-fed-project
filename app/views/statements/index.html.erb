@@ -10,6 +10,11 @@
   </div>
   &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-minus"></span>
   <div class="form-group">
+  <%= label_tag(:filter_as_of_now, "Exclude currently non-voting members") %>
+  <%= check_box_tag(:filter_as_of_now, "true", params.has_key?(:filter_as_of_now) ? true : false) %>
+  </div>
+  &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-minus"></span>
+  <div class="form-group">
   <%= label_tag(:filter_when_prior, "Exclude statements substantially similar to prior ones by the same member") %>
   <%= check_box_tag(:filter_when_prior, "true", params.has_key?(:filter_when_prior) ? true : false) %>
   </div>
@@ -17,6 +22,9 @@
 
 <script>
   document.getElementById('filter').addEventListener('change', function() {
+    document.getElementById('filter_form').submit();
+  }, false);
+  document.getElementById('filter_as_of_now').addEventListener('change', function() {
     document.getElementById('filter_form').submit();
   }, false);
   document.getElementById('filter_when_prior').addEventListener('change', function() {

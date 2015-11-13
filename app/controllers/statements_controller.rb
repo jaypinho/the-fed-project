@@ -5,7 +5,7 @@ class StatementsController < ApplicationController
   before_action :set_statement, only: [:show, :edit, :update, :destroy]
 
   def index
-    @statements = Statement.exclude_non_voting(params[:filter]).exclude_similar_to_prior(params[:filter_when_prior]).order(statement_date: :desc)
+    @statements = Statement.exclude_non_voting(params[:filter]).exclude_non_voting_as_of_now(params[:filter_as_of_now]).exclude_similar_to_prior(params[:filter_when_prior]).order(statement_date: :desc)
     respond_to do |format|
       format.html
       format.json { render json: @statements }
