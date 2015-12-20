@@ -1,5 +1,10 @@
 <div class="col-xs-12 col-md-9" style="height:100%;">
 
+  <span class="label label-primary">Average FOMC Projections of Long-Term Rates</span>
+
+  <div id="long_term_chart">
+  </div>
+
   <span class="label label-primary">FOMC Projections and Actual Rates</span>
 
   <div id="fed_chart">
@@ -14,6 +19,47 @@
 
     var days_in_advance = <%= raw @chart_data.collect { |x| x[:days_in_advance] } %>;
     var begin_date = <%= raw @chart_data.collect { |x| x[:date_of_projection] } %>;
+
+    var long_term_chart = c3.generate({
+      bindto: '#long_term_chart',
+      data: {
+        xs: {
+          'Average Long-Term Projection': 'x1'
+        },
+        columns: [
+          <%= raw ['x1'].concat(@long_run.collect { |x| x[:present_date].strftime('%Y-%m-%d') }) %>,
+          <%= raw ['Average Long-Term Projection'].concat(@long_run.collect { |x| x[:long_term].to_f }) %>
+        ],
+        xSort: false
+      },
+      axis: {
+        x: {
+          type: 'timeseries',
+          tick: {
+            format: '%Y-%m-%d',
+            fit: false
+          },
+          label: {
+            text: 'Projection Dates',
+            position: 'outer-right'
+          }
+        },
+        y: {
+          label: {
+            text: 'Average Projected Interest Rates',
+            position: 'outer-top'
+          },
+          min: 0
+        }
+      },
+      tooltip: {
+        format: {
+          title: function(d) { return d3.time.format("%B %e, %Y")(d) },
+          value: function(d) { return d + "%" }
+        },
+        grouped: false
+      }
+    });
 
     var fed_chart = c3.generate({
       bindto: '#fed_chart',

@@ -106,6 +106,8 @@ class ProjectionsController < ApplicationController
     @regression_slope = -@regression_slope
     @y_intercept = @chart2_data[0][:projection_discrepancy] - (@regression_slope * @chart2_data[0][:days_in_advance].abs)
 
+    @long_run = Projection.select('present_date, round(avg(projected_rate),2) AS long_term').where(:fulfillment_date => '2025-12-31').group(:present_date).order(present_date: :asc)
+
   end
 
   def show
