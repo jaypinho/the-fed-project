@@ -34,7 +34,7 @@
     <% if leaning.count == 1 %>
       <% leaning.first.lean == "Hawkish" ? leaning_text += "<small><span title='#{member.name}&#39;s most recent statement was hawkish.' class='glyphicon glyphicon-chevron-up'></span></small>" : (leaning.first.lean == "Dovish" ? leaning_text += "<small><span title='#{member.name}&#39;s most recent statement was dovish.' class='glyphicon glyphicon-chevron-down'></span></small>" : leaning_text += "<small><span title='#{member.name}&#39;s most recent statement was neutral.' class='glyphicon glyphicon-minus'></span></small>") %>
     <% end %>
-    <tr>
+    <tr class="<%= 'inactive_member' if Date.today < member.start_date || ((member.end_date.nil? == false) && (Date.today > member.end_date)) %>">
       <td><%= link_to member.name, member_path(member) %><%= leaning_text.html_safe %></td>
       <td><%= member.member_type %></td>
       <td><%= member.start_date.strftime("%B %-d, %Y") unless member.start_date.nil? %></td>

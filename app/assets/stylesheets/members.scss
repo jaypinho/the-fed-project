@@ -5,3 +5,7 @@ table .glyphicon-chevron-up {
 table .glyphicon-chevron-down {
   color: red;
 }
+
+table tr.inactive_member, table tr.inactive_member a {
+  color: gray;
+}
