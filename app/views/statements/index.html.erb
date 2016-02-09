@@ -1,20 +1,16 @@
-<div class="col-xs-12">
+<div class="col-md-2 hidden-xs"></div>
+<div class="col-xs-12 col-md-8">
 
 <h1>Statements</h1>
-
-<%= form_tag({controller: 'statements', action: 'index'}, method: 'get', id: 'filter_form', class: 'form-inline') do %>
-  <span class="glyphicon glyphicon-minus"></span>
+<p>&nbsp;</p>
+<%= form_tag({controller: 'statements', action: 'index'}, method: 'get', id: 'filter_form') do %>
   <div class="form-group">
   <%= label_tag(:filter, "Exclude non-voting members at time of statement") %>
   <%= check_box_tag(:filter, "true", params.has_key?(:filter) ? true : false) %>
-  </div>
-  &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-minus"></span>
-  <div class="form-group">
+  <br>
   <%= label_tag(:filter_as_of_now, "Exclude currently non-voting members") %>
   <%= check_box_tag(:filter_as_of_now, "true", params.has_key?(:filter_as_of_now) ? true : false) %>
-  </div>
-  &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-minus"></span>
-  <div class="form-group">
+  <br>
   <%= label_tag(:filter_when_prior, "Exclude statements substantially similar to prior ones by the same member") %>
   <%= check_box_tag(:filter_when_prior, "true", params.has_key?(:filter_when_prior) ? true : false) %>
   </div>
@@ -32,10 +28,9 @@
   }, false);
 </script>
 
-<table class="table table-striped">
+<table class="table table-hover">
   <thead>
     <tr>
-      <th style="width:30%;">Name</th>
       <th>Summary</th>
       <th>Lean</th>
       <th>Statement Date</th>
@@ -48,8 +43,7 @@
     <% counter += 1 %>
     <tr>
       <td><span class="badge"><%= link_to counter.to_s, statement_path(statement), style: "all: inherit" %></span>
-      &nbsp;<%= link_to statement.member.name, member_path(statement.member) %></td>
-      <td><%= statement.summary %>
+      &nbsp;<%= link_to statement.member.name, member_path(statement.member) %> <%= statement.summary %>
       <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, statement.url, :target => "_blank" %>
       <% if statement.similar_to_prior %>
       &nbsp;<span class="label label-default">Similar to Prior Statement</span>
@@ -65,3 +59,4 @@
 <%= link_to "All Members", members_path, class: "btn btn-default" %>
 <p/>
 </div>
+<div class="col-md-2 hidden-xs"></div>
