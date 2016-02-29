@@ -20,6 +20,7 @@ class StatementsController < ApplicationController
   end
 
   def new
+    @statements = Statement.all.order(statement_date: :desc)
     @statement = Statement.new
   end
 
