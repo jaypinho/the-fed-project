@@ -20,8 +20,17 @@ class StatementsController < ApplicationController
   end
 
   def new
-    @statements = Statement.all.order(statement_date: :desc)
-    @statement = Statement.new
+
+    respond_to do |format|
+      format.html {
+        @statements = Statement.all.order(statement_date: :desc)
+        @statement = Statement.new
+      }
+      format.js {
+        @statements = Statement.where(:member_id => params[:member_id].to_i).order(statement_date: :desc)
+      }
+    end
+
   end
 
   def edit

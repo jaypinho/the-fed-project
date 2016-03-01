@@ -1,0 +1,28 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Summary</th>
+      <th>Lean</th>
+      <th>Statement Date</th>
+      <th>Publication Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% counter = 0 %>
+    <% statements.each do |statement| %>
+    <% counter += 1 %>
+    <tr>
+      <td><span class="badge"><%= link_to counter.to_s, statement_path(statement), style: "all: inherit" %></span>
+      &nbsp;<%= link_to statement.member.name, member_path(statement.member) %> <%= statement.summary %>
+      <%= link_to '<span class="glyphicon glyphicon-paperclip"></span>'.html_safe, statement.url, :target => "_blank" %>
+      <% if statement.similar_to_prior %>
+      &nbsp;<span class="label label-default">Similar to Prior Statement</span>
+      <% end %>
+      </td>
+      <td><%= statement.lean %></td>
+      <td><%= statement.statement_date.strftime("%B %-d, %Y") unless statement.statement_date.nil? %></td>
+      <td><%= statement.pub_date.strftime("%B %-d, %Y") unless statement.pub_date.nil? %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
