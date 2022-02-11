@@ -1,5 +1,5 @@
 current directory: /Users/jpinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/websocket-driver-0.7.5/ext/websocket-driver
-/Users/jpinho/.rvm/rubies/ruby-3.1.0/bin/ruby -I /Users/jpinho/.rvm/rubies/ruby-3.1.0/lib/ruby/3.1.0 -r ./siteconf20220211-17508-7li6zh.rb extconf.rb
+/Users/jpinho/.rvm/rubies/ruby-3.1.0/bin/ruby -I /Users/jpinho/.rvm/rubies/ruby-3.1.0/lib/ruby/3.1.0 -r ./siteconf20220211-21874-qsozv3.rb extconf.rb
 creating Makefile
 
 current directory: /Users/jpinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/websocket-driver-0.7.5/ext/websocket-driver
@@ -12,4 +12,4 @@ linking shared-object websocket_mask.bundle
 
 current directory: /Users/jpinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/websocket-driver-0.7.5/ext/websocket-driver
 make DESTDIR\= install
-/usr/local/opt/coreutils/bin/ginstall -c -m 0755 websocket_mask.bundle ./.gem.20220211-17508-eqhz0c
+/usr/local/opt/coreutils/bin/ginstall -c -m 0755 websocket_mask.bundle ./.gem.20220211-21874-faaejs

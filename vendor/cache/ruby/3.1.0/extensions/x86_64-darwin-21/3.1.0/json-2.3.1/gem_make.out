@@ -1,5 +1,5 @@
 current directory: /Users/jpinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/json-2.3.1/ext/json
-/Users/jpinho/.rvm/rubies/ruby-3.1.0/bin/ruby -I /Users/jpinho/.rvm/rubies/ruby-3.1.0/lib/ruby/3.1.0 -r ./siteconf20220211-20020-l6mc7.rb extconf.rb
+/Users/jpinho/.rvm/rubies/ruby-3.1.0/bin/ruby -I /Users/jpinho/.rvm/rubies/ruby-3.1.0/lib/ruby/3.1.0 -r ./siteconf20220211-21874-qrvvbo.rb extconf.rb
 creating Makefile
 
 current directory: /Users/jpinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/json-2.3.1/ext/json
