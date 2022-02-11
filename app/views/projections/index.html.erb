@@ -176,7 +176,7 @@
     </div>
   <% end %>
 
-  <%= link_to "More Details", "#", :onclick => "$(showDetails())", :role => "button", class: "btn btn-info" %>
+  <%= link_to "More Details", "javascript:void(0)", :onclick => "$(showDetails())", :role => "button", class: "btn btn-info" %>
   <div id="details"></div>
 
   <script>
@@ -199,7 +199,7 @@
 
 <div class="col-md-3 hidden-xs hidden-sm" style="height:100%;">
 
-  <span class="label label-primary"><%= link_to "Recent Statements", statements_path, style: "all: inherit" %></span>
+  <!-- <span class="label label-primary"><%= link_to "Recent Statements", statements_path, style: "all: inherit" %></span>
 
   <table class="table table-striped">
     <thead>
@@ -220,7 +220,11 @@
       </tr>
       <% end %>
     </tbody>
-  </table>
+  </table>  -->
+  <p>&nbsp;</p>
+  <h1><%= number_with_delimiter(Projection.count) %></h1>
+  <small>individual projections</small>
+  <p>&nbsp;</p>
   <p>&nbsp;</p>
   <span class="label label-primary"><%= link_to "Tweets by Fed Watchers", "https://twitter.com/TheFedProject/lists/fed-watchers", {style: "all: inherit", target: "_blank"} %></span>
   <p>&nbsp;</p>

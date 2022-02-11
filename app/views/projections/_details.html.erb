@@ -1,4 +1,4 @@
-<strong>This project was created by <%= link_to "Jay Pinho", "https://twitter.com/jaypinho", :target => "_blank" %>
+<strong>This project was first launched by <%= link_to "Jay Pinho", "https://twitter.com/jaypinho", :target => "_blank" %>
 in August 2015.</strong>
 <p>&nbsp;</p>
 <p/>
@@ -19,17 +19,17 @@ each of these projections represents:
   or over the longer run.
 </blockquote>
 Since the FOMC began projecting future interest rates, FOMC participants have issued <%= number_with_delimiter(Projection.count) %>
-individual projections. That is, if today Janet Yellen projects that the "appropriate target level" for the federal funds rate at
-the end of 2016 is 2.00%, that would count as one projection.
+individual projections. That is, if today Jay Powell projects that the "appropriate target level" for the federal funds rate at
+the end of <%= Date.today.strftime('%Y') %> is 2.00%, that would count as one projection.
 <p/>
 The first chart above portrays the average projection of long-run interest rates for each date on which projections were made. For example,
-in the December 16, 2015 meeting, the average FOMC projection of the federal funds rate was 3.41%.
+in the December 15, 2021 meeting, the average FOMC projection of the federal funds rate was 2.46%.
 <p/>
 The second chart above displays all projected and actual rates over time since the Federal Reserve began issusing projections in early 2012.
 The third chart displays every individual projection made since the Federal Reserve began issuing them, with the exception of
 projections for dates in the future: that is, beyond <strong><%= Time.use_zone('America/New_York') { Time.zone.now.strftime("%B %e, %Y") } %></strong>. The x-axis displays
-the number of days between the projection and its expiration. That is, to reuse the above example, a Janet Yellen projection today of
-the interest rate on the last day of 2016 would show up as <strong>-<%= ('2016-12-31'.to_date - Date.today).to_i %></strong> on the
+the number of days between the projection and its expiration. That is, to reuse the above example, a Jay Powell projection today of
+the interest rate on the last day of <%= Date.today.strftime('%Y') %> would show up as <strong>-<%= (Date.new(Date.today.strftime('%Y').to_i,12,31) - Date.today).to_i %></strong> on the
 x-axis. (The negative sign is because the projection occurs <em>before</em> the date for which the rate is being projected.)
 <p/>
 The y-axis, meanwhile, displays the differential between the projected rate and the actual rate on that day for each individual

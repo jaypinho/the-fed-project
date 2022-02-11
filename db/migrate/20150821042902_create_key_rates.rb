@@ -1,4 +1,4 @@
-class CreateKeyRates < ActiveRecord::Migration
+class CreateKeyRates < ActiveRecord::Migration[5.1]
   def change
     create_table :key_rates do |t|
 

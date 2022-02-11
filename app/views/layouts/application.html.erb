@@ -40,16 +40,16 @@
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+          <!-- <span class="icon-bar"></span>
+          <span class="icon-bar"></span> -->
         </button>
         <a class="navbar-brand" href="#">The Fed Project</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li class=<%= params[:controller] == 'projections' && params[:action] == 'index' ? "active" : "" %>><%= link_to "Projections", {controller: 'projections', action: 'index'}, data: {no_turbolink: true} %></li>
-          <li class=<%= params[:controller] == 'members' && params[:action] == 'index' ? "active" : "" %>><%= link_to "Members", {controller: 'members', action: 'index'}, data: {no_turbolink: true} %></li>
-          <li class=<%= params[:controller] == 'statements' && params[:action] == 'index' ? "active" : "" %>><%= link_to "Statements", {controller: 'statements', action: 'index'}, data: {no_turbolink: true} %></li>
+          <!-- <li class=<%= params[:controller] == 'members' && params[:action] == 'index' ? "active" : "" %>><%= link_to "Members", {controller: 'members', action: 'index'}, data: {no_turbolink: true} %></li>
+          <li class=<%= params[:controller] == 'statements' && params[:action] == 'index' ? "active" : "" %>><%= link_to "Statements", {controller: 'statements', action: 'index'}, data: {no_turbolink: true} %></li> -->
           <!-- <li><a href="#about">About</a></li> -->
           <li><%= link_to "Contact", "https://twitter.com/jaypinho", :target => "_blank" %></li>
         </ul>

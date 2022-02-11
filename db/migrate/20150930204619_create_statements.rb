@@ -1,4 +1,4 @@
-class CreateStatements < ActiveRecord::Migration
+class CreateStatements < ActiveRecord::Migration[5.1]
   def change
     create_table :statements do |t|
       t.string :url
