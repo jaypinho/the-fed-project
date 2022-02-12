@@ -1,10 +1,15 @@
 <div class="col-xs-12 col-md-9" style="height:100%;">
 
-  <div id="explain">
+<!--   <div id="explain">
     As of March 20th, 2016, I am suspending work on The Fed Project. While I'd love to continue updating statements and projections,
     right now I simply don't have the time to juggle multiple side projects simultaneously. I hope to take this back up at some future date,
     but as of now I have no specific plans to do so. Thanks again for visiting!
-  </div>
+  </div> -->
+
+  <h1><%= number_with_delimiter(Projection.count) %></h1>
+  <small>individual projections</small>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
 
   <span class="label label-primary">Average FOMC Projections of Long-Term Rates</span>
 
@@ -221,11 +226,6 @@
       <% end %>
     </tbody>
   </table>  -->
-  <p>&nbsp;</p>
-  <h1><%= number_with_delimiter(Projection.count) %></h1>
-  <small>individual projections</small>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
   <span class="label label-primary"><%= link_to "Tweets by Fed Watchers", "https://twitter.com/TheFedProject/lists/fed-watchers", {style: "all: inherit", target: "_blank"} %></span>
   <p>&nbsp;</p>
   <a class="twitter-timeline" href="https://twitter.com/TheFedProject/lists/fed-watchers" data-widget-id="639864180619636736" height="60%">Tweets from https://twitter.com/TheFedProject/lists/fed-watchers</a>
