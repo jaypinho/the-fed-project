@@ -32,7 +32,7 @@
         .domain(d3.extent(data, d => d.date))
         .rangeRound([margin.left, width - margin.right]);
 
-      const y = d3.scaleLog()
+      const y = d3.scaleLinear()
         .domain([1, d3.max(data, d => d.upper)])
         .rangeRound([height - margin.bottom, margin.top])
         .clamp(true);
@@ -356,8 +356,6 @@
       <% end %>
     </tbody>
   </table>  -->
-  <span class="label label-primary"><%= link_to "Tweets by Fed Watchers", "https://twitter.com/TheFedProject/lists/fed-watchers", {style: "all: inherit", target: "_blank"} %></span>
-  <p>&nbsp;</p>
-  <a class="twitter-timeline" href="https://twitter.com/TheFedProject/lists/fed-watchers" data-widget-id="639864180619636736" height="60%">Tweets from https://twitter.com/TheFedProject/lists/fed-watchers</a>
+  <a class="twitter-timeline" data-height="800" href="https://twitter.com/TheFedProject/lists/fed-watchers?ref_src=twsrc%5Etfw">A Twitter List by TheFedProject</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 </div>

@@ -41,46 +41,18 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Projections</a>
+            <a class="nav-link active" aria-current="page" href="#">Projections</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="https://twitter.com/jaypinho" target="_blank">Contact</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
+            <div class="d-flex justify-content-end">
+              <a href="https://twitter.com/TheFedProject" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @TheFedProject</a>
+            </div>
           </li>
         </ul>
       </div>
-    </div>
-  </nav>
-
-  <!-- Fixed navbar -->
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <!-- <span class="icon-bar"></span>
-          <span class="icon-bar"></span> -->
-        </button>
-        <a class="navbar-brand" href="#">The Fed Project</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li class=<%= params[:controller] == 'projections' && params[:action] == 'index' ? "active" : "" %>><%= link_to "Projections", {controller: 'projections', action: 'index'}, data: {no_turbolink: true} %></li>
-          <!-- <li class=<%= params[:controller] == 'members' && params[:action] == 'index' ? "active" : "" %>><%= link_to "Members", {controller: 'members', action: 'index'}, data: {no_turbolink: true} %></li>
-          <li class=<%= params[:controller] == 'statements' && params[:action] == 'index' ? "active" : "" %>><%= link_to "Statements", {controller: 'statements', action: 'index'}, data: {no_turbolink: true} %></li> -->
-          <!-- <li><a href="#about">About</a></li> -->
-          <li><%= link_to "Contact", "https://twitter.com/jaypinho", :target => "_blank" %></li>
-        </ul>
-        <div id="buttondiv">
-          <a href="https://twitter.com/TheFedProject" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @TheFedProject</a>
-        </div>
-      </div><!--/.nav-collapse -->
     </div>
   </nav>
 

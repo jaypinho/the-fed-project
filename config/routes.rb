@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   #   resources :products
   resources :projections, :members, :statements, :terms
 
+  get 'd3_get_actual_rates', to: 'projections#d3_get_actual_rates'
+  get 'd3_get_projected_rates', to: 'projections#d3_get_projected_rates'
 
   # Example resource route with options:
   #   resources :products do

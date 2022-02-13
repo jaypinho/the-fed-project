@@ -1,6 +1,6 @@
 class ProjectionsController < ApplicationController
 
-  http_basic_authenticate_with :name => ENV['FED_USERNAME'], :password => ENV['FED_PASSWORD'], except: [:index]
+  http_basic_authenticate_with :name => ENV['FED_USERNAME'], :password => ENV['FED_PASSWORD'], except: [:index, :d3_get_actual_rates, :d3_get_projected_rates]
 
   before_action :set_projection, only: [:show, :edit, :update, :destroy]
 
@@ -139,6 +139,18 @@ class ProjectionsController < ApplicationController
   def destroy
     @projection.destroy
     redirect_to projections_path
+  end
+
+  def d3_get_actual_rates
+    respond_to do |format|
+      format.json {render json: KeyRate.all.limit(100) }
+    end
+  end
+
+  def d3_get_projected_rates
+    respond_to do |format|
+      format.json { render json: Projection.all.select('present_date, fulfillment_date, projected_rate, count(*)').group(:present_date, :fulfillment_date, :projected_rate).order('present_date asc, fulfillment_date asc, projected_rate asc') }
+    end
   end
 
   private
