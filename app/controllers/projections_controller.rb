@@ -1,11 +1,11 @@
 class ProjectionsController < ApplicationController
 
-  http_basic_authenticate_with :name => ENV['FED_USERNAME'], :password => ENV['FED_PASSWORD'], except: [:index, :d3_get_actual_rates, :d3_get_projected_rates]
+  http_basic_authenticate_with :name => ENV['FED_USERNAME'], :password => ENV['FED_PASSWORD'], except: [:index, :d3_get_actual_rates, :d3_get_projected_rates, :d3_get_chart_source_data]
 
   before_action :set_projection, only: [:show, :edit, :update, :destroy]
 
   def index
-    @projections = Projection.select('projections.*, key_rates.actual_rate').where("fulfillment_date < ?", '2025-12-31').joins('LEFT JOIN key_rates on key_rates.rate_date = projections.fulfillment_date').order(present_date: :asc, fulfillment_date: :asc, projected_rate: :asc)
+    @projections = Projection.select('projections.*, key_rates.actual_rate').where("fulfillment_date < ?", LONG_RUN_PLACEHOLDER_DATE).joins('LEFT JOIN key_rates on key_rates.rate_date = projections.fulfillment_date').order(present_date: :asc, fulfillment_date: :asc, projected_rate: :asc)
     @chart_data = []
 
       if params.has_key?(:trim) && params[:trim].to_i > 0
@@ -106,7 +106,7 @@ class ProjectionsController < ApplicationController
     @regression_slope = -@regression_slope
     @y_intercept = @chart2_data[0][:projection_discrepancy] - (@regression_slope * @chart2_data[0][:days_in_advance].abs)
 
-    @long_run = Projection.select('present_date, round(avg(projected_rate),2) AS long_term').where(:fulfillment_date => '2025-12-31').group(:present_date).order(present_date: :asc)
+    @long_run = Projection.select('present_date, round(avg(projected_rate),2) AS long_term').where(:fulfillment_date => LONG_RUN_PLACEHOLDER_DATE).group(:present_date).order(present_date: :asc)
 
   end
 
@@ -143,7 +143,7 @@ class ProjectionsController < ApplicationController
 
   def d3_get_actual_rates
     respond_to do |format|
-      format.json {render json: KeyRate.all.limit(100) }
+      format.json {render json: KeyRate.all.order(rate_date: :asc) }
     end
   end
 
@@ -151,6 +151,19 @@ class ProjectionsController < ApplicationController
     respond_to do |format|
       format.json { render json: Projection.all.select('present_date, fulfillment_date, projected_rate, count(*)').group(:present_date, :fulfillment_date, :projected_rate).order('present_date asc, fulfillment_date asc, projected_rate asc') }
     end
+  end
+
+  def d3_get_chart_source_data
+
+    json_response = {
+      "actual_rates": KeyRate.all.order(rate_date: :asc),
+      "projected_rates": Projection.all.select('fulfillment_date, min(projected_rate), max(projected_rate), avg(projected_rate), PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY projected_rate) As median, count(*)').group(:fulfillment_date).order(fulfillment_date: :asc)
+    }
+
+    respond_to do |format|
+      format.json { render json: json_response }
+    end
+
   end
 
   private
