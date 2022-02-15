@@ -157,7 +157,8 @@ class ProjectionsController < ApplicationController
 
     json_response = {
       "actual_rates": KeyRate.all.order(rate_date: :asc),
-      "projected_rates": Projection.all.select('fulfillment_date, min(projected_rate), max(projected_rate), avg(projected_rate), PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY projected_rate) As median, count(*)').group(:fulfillment_date).order(fulfillment_date: :asc)
+      "projected_rates": Projection.all.select('fulfillment_date, min(projected_rate), max(projected_rate), avg(projected_rate), PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY projected_rate) As median, count(*)').group(:fulfillment_date).order(fulfillment_date: :asc),
+      "projected_long_term_rates": Projection.all.select('present_date, min(projected_rate), max(projected_rate), avg(projected_rate), PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY projected_rate) As median, count(*)').where(:fulfillment_date => LONG_RUN_PLACEHOLDER_DATE).group(:present_date).order(present_date: :asc)
     }
 
     respond_to do |format|
