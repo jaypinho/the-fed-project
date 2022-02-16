@@ -128,6 +128,19 @@
 
         document.getElementById('long-term-projected-rates-chart').append(long_term_projected_rates_chart);*/
 
+        error_chart = Scatterplot(data.projected_rates_detail, {
+          x: d => parseInt(d.days_until),
+          y: d => Number(d.projection_error),
+          title: d => d.title,
+          xLabel: "Days in advance →",
+          yLabel: "↑ Projected rate error",
+          stroke: "steelblue",
+          width: 1200,
+          height: 600
+        });
+
+        document.getElementById('error-chart').append(error_chart);
+
     });
 
 
@@ -613,25 +626,10 @@
         .join("circle")
           .attr("cx", i => xScale(X[i]))
           .attr("cy", i => yScale(Y[i]))
-          .attr("r", i => data[i].size);
+          .attr("r", i => parseInt(data[i].projection_total));
 
       return svg.node();
-    } 
-
-
-    test_data = [{"mpg": 50, "hp": 100, "title": "jaguar1", "size": 2}, {"mpg": 83, "hp": 174, "title": "jaguar2", "size": 5}, {"mpg": 111, "hp": 34, "title": "jaguar3", "size": 10}]
-    error_chart = Scatterplot(test_data, {
-      x: d => d.mpg,
-      y: d => d.hp,
-      title: d => d.title,
-      xLabel: "Days in advance →",
-      yLabel: "↑ Projected rate error",
-      stroke: "steelblue",
-      width: 1200,
-      height: 600
-    });
-
-    document.getElementById('error-chart').append(error_chart);
+    }
 
   </script>
 
