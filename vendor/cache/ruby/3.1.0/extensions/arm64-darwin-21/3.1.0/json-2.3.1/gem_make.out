@@ -1,0 +1,13 @@
+current directory: /Users/jaypinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/json-2.3.1/ext/json
+/Users/jaypinho/.rvm/rubies/ruby-3.1.0/bin/ruby -I /Users/jaypinho/.rvm/rubies/ruby-3.1.0/lib/ruby/3.1.0 -r ./siteconf20220314-40684-w59ypm.rb extconf.rb
+creating Makefile
+
+current directory: /Users/jaypinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/json-2.3.1/ext/json
+make DESTDIR\= clean
+
+current directory: /Users/jaypinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/json-2.3.1/ext/json
+make DESTDIR\=
+make: Nothing to be done for `all'.
+
+current directory: /Users/jaypinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/json-2.3.1/ext/json
+make DESTDIR\= install

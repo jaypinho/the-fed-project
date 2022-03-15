@@ -1,0 +1,15 @@
+current directory: /Users/jaypinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/bindex-0.8.1/ext/skiptrace
+/Users/jaypinho/.rvm/rubies/ruby-3.1.0/bin/ruby -I /Users/jaypinho/.rvm/rubies/ruby-3.1.0/lib/ruby/3.1.0 -r ./siteconf20220314-40684-tl7fxs.rb extconf.rb
+creating Makefile
+
+current directory: /Users/jaypinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= clean
+
+current directory: /Users/jaypinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\=
+compiling cruby.c
+linking shared-object skiptrace/internal/cruby.bundle
+
+current directory: /Users/jaypinho/workspace/the-fed-project/vendor/cache/ruby/3.1.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= install
+/opt/homebrew/opt/coreutils/bin/ginstall -c -m 0755 cruby.bundle ./.gem.20220314-40684-1q04yz/skiptrace/internal
