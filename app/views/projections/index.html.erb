@@ -19,6 +19,78 @@
   <div id="error-chart">
   </div>
   <script>
+
+    d3.json("http://localhost:3000/d3_get_chart_source_data.json")
+      .then(function(data) {
+
+        actual_rates_chart = LineChart(data.actual_rates, {
+          x: d => Date.parse(d.rate_date),
+          y: d => Number(d.actual_rate),
+          yLabel: "↑ Fed funds rate (%)",
+          height: 500,
+          color: "steelblue"
+        });
+
+        document.getElementById('actual-rates-chart').append(actual_rates_chart);
+
+        drawChart('#combined-chart', data);
+
+
+        date_values = data.projected_long_term_rates.map(a => a.present_date);
+        date_values = date_values.concat(date_values).concat(date_values).concat(date_values);
+
+        data_values = data.projected_long_term_rates.map(a => [a.min, a.max, a.avg, a.median]);
+        data_values = data_values[0].flatMap((col, i) => data_values.map(row => row[i]));
+
+        // console.log(data_values);
+
+        values = date_values.map((a, index) => ({
+          "dates": a,
+          "values": data_values[index],
+          "series": ["Minimum", "Maximum", "Average", "Median"].map(b => Array(data.projected_long_term_rates.length).fill(b, 0)).flat()[index]
+        }));
+
+        multi_line_chart = MultiLineChart(values, {
+          x: d => Date.parse(d.dates),
+          y: d => Number(d.values),
+          z: d => d.series,
+          yLabel: "↑ Fed funds rate (%)",
+          height: 600,
+          width: 1200,
+          color: "steelblue",
+          title: d => `${d.series}: ${Number(d.values).toFixed(2)}% (${d.dates})`
+        });
+
+        // focus = Generators.input(multi_line_chart);
+
+        document.getElementById('long-term-projected-rates-chart').append(multi_line_chart);
+
+/*
+        long_term_projected_rates_chart = LineChart(data.projected_long_term_rates, {
+          x: d => Date.parse(d.present_date),
+          y: d => Number(d.avg),
+          yLabel: "↑ Fed funds rate (%)",
+          height: 500,
+          color: "steelblue"
+        });
+
+        document.getElementById('long-term-projected-rates-chart').append(long_term_projected_rates_chart);*/
+
+        error_chart = Scatterplot(data.projected_rates_detail, {
+          x: d => parseInt(d.days_until),
+          y: d => Number(d.projection_error),
+          title: d => d.title,
+          xLabel: "Days in advance →",
+          yLabel: "↑ Projected rate error",
+          stroke: "steelblue",
+          width: 1200,
+          height: 600
+        });
+
+        document.getElementById('error-chart').append(error_chart);
+
+    });
+
     function LineChart(data, {
       x = ([x]) => x, // given d in data, returns the (temporal) x-value
       y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
@@ -103,51 +175,6 @@
 
           return svg.node();
     }
-
-    d3.json("http://localhost:3000/d3_get_chart_source_data.json")
-      .then(function(data) {
-
-        actual_rates_chart = LineChart(data.actual_rates, {
-          x: d => Date.parse(d.rate_date),
-          y: d => Number(d.actual_rate),
-          yLabel: "↑ Fed funds rate (%)",
-          height: 500,
-          color: "steelblue"
-        });
-
-        document.getElementById('actual-rates-chart').append(actual_rates_chart);
-
-/*
-        long_term_projected_rates_chart = LineChart(data.projected_long_term_rates, {
-          x: d => Date.parse(d.present_date),
-          y: d => Number(d.avg),
-          yLabel: "↑ Fed funds rate (%)",
-          height: 500,
-          color: "steelblue"
-        });
-
-        document.getElementById('long-term-projected-rates-chart').append(long_term_projected_rates_chart);*/
-
-        error_chart = Scatterplot(data.projected_rates_detail, {
-          x: d => parseInt(d.days_until),
-          y: d => Number(d.projection_error),
-          title: d => d.title,
-          xLabel: "Days in advance →",
-          yLabel: "↑ Projected rate error",
-          stroke: "steelblue",
-          width: 1200,
-          height: 600
-        });
-
-        document.getElementById('error-chart').append(error_chart);
-
-    });
-
-
-    d3.json("http://localhost:3000/d3_get_chart_source_data.json")
-      .then(function(data) {
-        drawChart('#combined-chart', data);
-       });
 
     function drawChart(container, data) {
 
@@ -471,51 +498,6 @@
       return Object.assign(svg.node(), {value: null});
 
     }
-
-
-    d3.json("http://localhost:3000/d3_get_chart_source_data.json")
-      .then(function(data) {
-
-/*        long_term_projected_rates_chart = LineChart(data.projected_long_term_rates, {
-          x: d => Date.parse(d.present_date),
-          y: d => Number(d.avg),
-          yLabel: "↑ Fed funds rate (%)",
-          height: 500,
-          color: "steelblue"
-        });*/
-
-
-        date_values = data.projected_long_term_rates.map(a => a.present_date);
-        date_values = date_values.concat(date_values).concat(date_values).concat(date_values);
-
-        data_values = data.projected_long_term_rates.map(a => [a.min, a.max, a.avg, a.median]);
-        data_values = data_values[0].flatMap((col, i) => data_values.map(row => row[i]));
-
-        // console.log(data_values);
-
-        values = date_values.map((a, index) => ({
-          "dates": a,
-          "values": data_values[index],
-          "series": ["Minimum", "Maximum", "Average", "Median"].map(b => Array(data.projected_long_term_rates.length).fill(b, 0)).flat()[index]
-        }));
-
-        multi_line_chart = MultiLineChart(values, {
-          x: d => Date.parse(d.dates),
-          y: d => Number(d.values),
-          z: d => d.series,
-          yLabel: "↑ Fed funds rate (%)",
-          height: 600,
-          width: 1200,
-          color: "steelblue",
-          title: d => `${d.series}: ${Number(d.values).toFixed(2)}% (${d.dates})`
-        });
-
-        // focus = Generators.input(multi_line_chart);
-
-        document.getElementById('long-term-projected-rates-chart').append(multi_line_chart);
-
-    });
-
 
     function Scatterplot(data, {
       x = ([x]) => x, // given d in data, returns the (quantitative) x-value
