@@ -55,7 +55,7 @@
           x: d => Date.parse(d.dates),
           y: d => Number(d.values),
           z: d => d.series,
-          yLabel: "↑ Fed funds rate (%)",
+          yLabel: "↑ Projected long-term Fed funds rate (%)",
           height: 600,
           width: 1200,
           color: "steelblue",
@@ -82,7 +82,7 @@
           y: d => Number(d.projection_error),
           title: d => d.title,
           xLabel: "Days in advance →",
-          yLabel: "↑ Projected rate error",
+          yLabel: "↑ Projected rate error (%)",
           stroke: "steelblue",
           width: 1200,
           height: 600
