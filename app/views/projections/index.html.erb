@@ -27,7 +27,7 @@
           x: d => Date.parse(d.rate_date),
           y: d => Number(d.actual_rate),
           xLabel: "Date →",
-          yLabel: "↑ Fed funds rate (%)",
+          yLabel: "↑ Actual Fed funds rate (%)",
           height: 500,
           color: "steelblue",
           title: d => `${d.rate_date}: ${Number(d.actual_rate).toFixed(2)}%`
@@ -450,7 +450,7 @@
 
       // Compute default domains, and unique the z-domain.
       if (xDomain === undefined) xDomain = d3.extent(X);
-      if (yDomain === undefined) yDomain = [0, d3.max(Y)];
+      if (yDomain === undefined) yDomain = [d3.max([0, d3.min(Y) - 0.5]), d3.max(Y) + 0.5];
       if (zDomain === undefined) zDomain = Z;
       zDomain = new d3.InternSet(zDomain);
 
