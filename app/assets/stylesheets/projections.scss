@@ -45,3 +45,7 @@ div#explain {
   margin: 10px;
   padding: 5px;
 }
+
+div.chart-div svg {
+  overflow: overlay;
+}
