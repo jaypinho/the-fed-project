@@ -26,6 +26,7 @@
         actual_rates_chart = LineChart(data.actual_rates, {
           x: d => Date.parse(d.rate_date),
           y: d => Number(d.actual_rate),
+          xLabel: "Date →",
           yLabel: "↑ Fed funds rate (%)",
           height: 500,
           color: "steelblue",
@@ -55,6 +56,7 @@
           x: d => Date.parse(d.dates),
           y: d => Number(d.values),
           z: d => d.series,
+          xLabel: "Projected date →",
           yLabel: "↑ Projected long-term Fed funds rate (%)",
           height: 600,
           width: 1200,
@@ -111,6 +113,7 @@
       yDomain, // [ymin, ymax]
       yRange = [height - marginBottom, marginTop], // [bottom, top]
       yFormat =  ".2f", // a format specifier string for the y-axis
+      xLabel,
       yLabel, // a label for the y-axis
       color = "currentColor", // stroke color of line
       strokeLinecap = "round", // stroke line cap of the line
@@ -157,7 +160,13 @@
 
       svg.append("g")
           .attr("transform", `translate(0,${height - marginBottom})`)
-          .call(xAxis);
+          .call(xAxis)
+          .call(g => g.append("text")
+              .attr("x", width)
+              .attr("y", marginBottom - 4)
+              .attr("fill", "currentColor")
+              .attr("text-anchor", "end")
+              .text(xLabel));
 
       svg.append("g")
           .attr("transform", `translate(${marginLeft},0)`)
@@ -296,10 +305,22 @@
           .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
 
       svg.append("g")
-          .call(xAxis);
+          .call(xAxis)
+          .call(g => g.append("text")
+              .attr("x", width)
+              .attr("y", margin.bottom - 4)
+              .attr("fill", "currentColor")
+              .attr("text-anchor", "end")
+              .text("Date of actual or projected rate →"));
 
       svg.append("g")
-          .call(yAxis);
+          .call(yAxis)
+          .call(g => g.append("text")
+              .attr("x", -margin.left)
+              .attr("y", 10)
+              .attr("fill", "currentColor")
+              .attr("text-anchor", "start")
+              .text("↑ Fed funds rate (%)"));
 
       svg.append("g")
           .call(grid);
@@ -408,6 +429,7 @@
       yDomain, // [ymin, ymax]
       yRange = [height - marginBottom, marginTop], // [bottom, top]
       yFormat, // a format specifier string for the y-axis
+      xLabel,
       yLabel, // a label for the y-axis
       zDomain, // array of z-values
       color = "currentColor", // stroke color of line, as a constant or a function of *z*
@@ -473,7 +495,13 @@
 
       svg.append("g")
           .attr("transform", `translate(0,${height - marginBottom})`)
-          .call(xAxis);
+          .call(xAxis)
+          .call(g => g.append("text")
+              .attr("x", width)
+              .attr("y", marginBottom - 4)
+              .attr("fill", "currentColor")
+              .attr("text-anchor", "end")
+              .text(xLabel));
 
       svg.append("g")
           .attr("transform", `translate(${marginLeft},0)`)
