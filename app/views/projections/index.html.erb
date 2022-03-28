@@ -35,8 +35,6 @@
 
         document.getElementById('actual-rates-chart').append(actual_rates_chart);
 
-        // drawChart('#combined-chart', data);
-
         combined_chart = drawChart(data);
         document.getElementById('combined-chart').append(combined_chart);
 
@@ -47,13 +45,15 @@
         data_values = data.projected_long_term_rates.map(a => [a.min, a.max, a.avg, a.median]);
         data_values = data_values[0].flatMap((col, i) => data_values.map(row => row[i]));
 
-        // console.log(data_values);
+        console.log(data_values);
 
         values = date_values.map((a, index) => ({
           "dates": a,
           "values": data_values[index],
           "series": ["Minimum", "Maximum", "Average", "Median"].map(b => Array(data.projected_long_term_rates.length).fill(b, 0)).flat()[index]
         }));
+
+        console.log(values);
 
         multi_line_chart = MultiLineChart(values, {
           x: d => Date.parse(d.dates),
@@ -85,7 +85,7 @@
         error_chart = Scatterplot(data.projected_rates_detail, {
           x: d => parseInt(d.days_until),
           y: d => Number(d.projection_error),
-          title: d => d.title,
+          title: d => `Days in advance: ${d.days_until}<br>Number of projections: ${parseInt(d.projection_total)}<br>Projection error: ${d.projection_error}%`,
           xLabel: "Days in advance →",
           yLabel: "↑ Projected rate error (%)",
           stroke: "steelblue",
@@ -305,7 +305,10 @@
           .attr("stroke-miterlimit", 1)
           .attr("width", width)
           .attr("height", height)
-          .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
+          .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
+          .on("pointerenter", pointerentered)
+          .on("pointermove", pointermoved)
+          .on("pointerleave", pointerleft);
 
       svg.append("g")
           .call(xAxis)
@@ -328,12 +331,12 @@
       svg.append("g")
           .call(grid);
 
+      // This is the actual data
       svg.append("path")
           .attr("fill", "steelblue")
           .attr("fill-opacity", 0.2)
           .attr("d", area(data.projected_rates));
 
-      // This is the actual data
       svg.append("path")
           .attr("fill", "none")
           .attr("stroke", "black")
@@ -379,6 +382,24 @@
           .attr("text-anchor", "start")
           .style("fill", "red")
           .text("Average Projected Rate"); 
+
+      function pointermoved(event) {
+        const [xm, ym] = d3.pointer(event);
+        const i = d3.least(I, i => Math.hypot(xScale(X[i]) - xm, yScale(Y[i]) - ym)); // closest point
+        dot.attr("transform", `translate(${xScale(X[i])},${yScale(Y[i])})`);
+        if (T) dot.select("text").text("hello");
+        svg.property("value", O[i]).dispatch("input", {bubbles: true});
+      }
+
+      function pointerentered() {
+        dot.attr("display", null);
+      }
+
+      function pointerleft() {
+        dot.attr("display", "none");
+        svg.node().value = null;
+        svg.dispatch("input", {bubbles: true});
+      }
 
       return svg.node();
 
@@ -599,7 +620,7 @@
       yLabel, // a label for the y-axis
       xFormat, // a format specifier string for the x-axis
       yFormat, // a format specifier string for the y-axis
-      fill = "none", // fill color for dots
+      fill = "transparent", // fill color for dots
       stroke = "currentColor", // stroke color for the dots
       strokeWidth = 1.5, // stroke width for dots
       halo = "#fff", // color of label halo 
@@ -655,23 +676,10 @@
               .attr("text-anchor", "start")
               .text(yLabel));
 
-      if (T) svg.append("g")
-          .attr("font-family", "sans-serif")
-          .attr("font-size", 10)
-          .attr("stroke-linejoin", "round")
-          .attr("stroke-linecap", "round")
-        .selectAll("text")
-        .data(I)
-        .join("text")
-          .attr("dx", 7)
-          .attr("dy", "0.35em")
-          .attr("x", i => xScale(X[i]))
-          .attr("y", i => yScale(Y[i]))
-          .text(i => T[i])
-          .call(text => text.clone(true))
-          .attr("fill", "none")
-          .attr("stroke", halo)
-          .attr("stroke-width", haloWidth);
+
+      var div = d3.select("body").append("div")
+       .attr("class", "tooltip")
+       .style("opacity", 0);
 
       svg.append("g")
           .attr("fill", fill)
@@ -682,7 +690,32 @@
         .join("circle")
           .attr("cx", i => xScale(X[i]))
           .attr("cy", i => yScale(Y[i]))
-          .attr("r", i => parseInt(data[i].projection_total));
+          .attr("r", i => parseInt(data[i].projection_total))
+        .on('pointerenter', function (d, i) {
+
+             d3.select(this).transition()
+                .duration('25')
+                .attr("stroke-width", 5);
+
+            div.transition()
+              .duration('25')
+              .style("opacity", 1);
+
+        })
+        .on('pointermove', function (d, i) {
+          div.html(T[i])
+              .style("left", (d.pageX + 10) + "px")
+              .style("top", (d.pageY - 15) + "px");
+        })
+        .on('pointerleave', function (d, i) {
+             d3.select(this).transition()
+                .duration('200')
+                .attr("stroke-width", strokeWidth);
+
+              div.transition()
+                .duration('200')
+                .style("opacity", 0);
+        });
 
       return svg.node();
     }
