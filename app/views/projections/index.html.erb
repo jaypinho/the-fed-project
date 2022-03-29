@@ -45,6 +45,7 @@
         data_values = data.projected_long_term_rates.map(a => [a.min, a.max, a.avg, a.median]);
         data_values = data_values[0].flatMap((col, i) => data_values.map(row => row[i]));
 
+        console.log(date_values);
         console.log(data_values);
 
         values = date_values.map((a, index) => ({
@@ -53,7 +54,8 @@
           "series": ["Minimum", "Maximum", "Average", "Median"].map(b => Array(data.projected_long_term_rates.length).fill(b, 0)).flat()[index]
         }));
 
-        console.log(values);
+        console.log(values.filter(i => i.series == "Minimum"));
+        console.log(d3.groups(values, i => i.dates));
 
         multi_line_chart = MultiLineChart(values, {
           x: d => Date.parse(d.dates),
@@ -499,6 +501,11 @@
           .x(i => xScale(X[i]))
           .y(i => yScale(Y[i]));
 
+      area = d3.area()
+          .x(d => xScale(Date.parse(d[0])))
+          .y0(d => yScale(Number(d[1].find(i => i.series == 'Minimum').values)))
+          .y1(d => yScale(Number(d[1].find(i => i.series == 'Maximum').values)));
+
       const svg = d3.create("svg")
           .attr("width", width)
           .attr("height", height)
@@ -556,6 +563,13 @@
           .style("mix-blend-mode", mixBlendMode)
           .attr("stroke", typeof color === "function" ? ([z]) => color(z) : null)
           .attr("d", ([, I]) => line(I));
+
+      console.log(data);
+
+      svg.append("path")
+          .attr("fill", "steelblue")
+          .attr("fill-opacity", 0.2)
+          .attr("d", area(d3.groups(data, i => i.dates)));
 
       const dot = svg.append("g")
           .attr("display", "none");
