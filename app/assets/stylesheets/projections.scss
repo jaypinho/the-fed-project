@@ -29,21 +29,8 @@ div#buttondiv {
   display: none;
 }
 
-#fed_chart .c3-line-Projected-Rate, #fed_chart .c3-circles-Actual-Rate, #fed_chart2 .c3-circles-Regression {
-  display: none;
-}
-
 a.btn {
   margin-bottom: 30px;
-}
-
-div#explain {
-  border-radius: 5px;
-  border-color: gray;
-  border-width: 2px;
-  border-style: solid;
-  margin: 10px;
-  padding: 5px;
 }
 
 div.chart-div {

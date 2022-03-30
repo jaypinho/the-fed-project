@@ -1,14 +1,13 @@
 <div class="col-xs-12 col-md-9" style="height:100%;">
 
-<!--   <div id="explain">
-    As of March 20th, 2016, I am suspending work on The Fed Project. While I'd love to continue updating statements and projections,
-    right now I simply don't have the time to juggle multiple side projects simultaneously. I hope to take this back up at some future date,
-    but as of now I have no specific plans to do so. Thanks again for visiting!
-  </div> -->
-
   <h1><%= number_with_delimiter(Projection.count) %></h1>
   <small>individual projections</small>
   <p>&nbsp;</p>
+  <%= form_tag({controller: 'projections', action: 'index'}, method: 'get', id: 'trim_form', class: 'form-inline') do %>
+    <div class="form-group">
+    Exclude the <%= select_tag(:trim, options_for_select([0,1,2,3,4,5,6,7], params.has_key?(:trim) ? params[:trim].to_i : 0), class: "form-inline") %> max and min projections from each combination of a given FOMC meeting date and projection expiration date
+    </div>
+  <% end %>
   <p>&nbsp;</p>
   <div id="actual-rates-chart" class="chart-div" style="display:none;">
   </div>
@@ -20,7 +19,9 @@
   </div>
   <script>
 
-    d3.json("http://localhost:3000/d3_get_chart_source_data.json?trim=2")
+    var trim = new URLSearchParams(location.search).get('trim') == null ? 0 : new URLSearchParams(location.search).get('trim');
+
+    d3.json(`http://localhost:3000/d3_get_chart_source_data.json?trim=${trim}`)
       .then(function(data) {
 
         actual_rates_chart = LineChart(data.actual_rates, {
@@ -800,18 +801,25 @@
 
   </script>
 
-  <%= link_to "More Details", "javascript:void(0)", :onclick => "$(showDetails())", :role => "button", class: "btn btn-info" %>
+  <%= link_to "More Details", "javascript:void(0)", :onclick => "$(showDetails())", :role => "button", id: "details-btn", class: "btn btn-info" %>
   <div id="details"></div>
   <p>
     &nbsp;
   </p>
   <script>
+
+    document.getElementById('trim').addEventListener('change', function() {
+      document.getElementById('trim_form').submit();
+    }, false);
+
     function showDetails() {
 
       if ($('#details').is(':empty')) {
         $('#details').empty().append("<%= escape_javascript(render partial: 'details') %>").hide().slideDown('fast');
+        $('#details-btn').empty().append("Hide Details");
       } else {
         $('#details').slideUp('fast').empty();
+        $('#details-btn').empty().append("More Details");
       }
 
     }
