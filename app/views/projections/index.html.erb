@@ -40,31 +40,31 @@
 
         combined_values = data.actual_rates.map(a => ({
           "date": a.rate_date,
-          "series": "Actual",
+          "series": "Actual Rate",
           "values": Number(a.actual_rate)
         }));
         combined_values = combined_values.concat(data.projected_rates.map(a => ({
           "date": a.fulfillment_date,
-          "series": "Median",
+          "series": "Median Projection",
           "values": Number(a.median)
         })));
         combined_values = combined_values.concat(data.projected_rates.map(a => ({
           "date": a.fulfillment_date,
-          "series": "Average",
+          "series": "Average Projection",
           "values": Number(a.avg)
         })));
         combined_values = combined_values.concat(data.projected_rates.map(a => ({
           "date": a.fulfillment_date,
-          "series": "Minimum",
+          "series": "Minimum Projection",
           "values": Number(a.min)
         })));
         combined_values = combined_values.concat(data.projected_rates.map(a => ({
           "date": a.fulfillment_date,
-          "series": "Maximum",
+          "series": "Maximum Projection",
           "values": Number(a.max)
         })));
   
-        console.log(combined_values);
+        // console.log(combined_values);
 
         combined_chart = drawChart(data, {
           title: d => `${d.date}: ${Number(d.values).toFixed(2)}% (${d.series})`,
@@ -324,6 +324,14 @@
           .x(d => x(Date.parse(d.fulfillment_date)))
           .y(d => y(Number(d.avg)));
 
+      projected_max_line = d3.line()
+          .x(d => x(Date.parse(d.fulfillment_date)))
+          .y(d => y(Number(d.max)));
+
+      projected_min_line = d3.line()
+          .x(d => x(Date.parse(d.fulfillment_date)))
+          .y(d => y(Number(d.min)));
+
       // Define the shaded area around the projected line (technically it's around the actual line too, not just the projected portion of it, but the upper and lower bound y values are equal to the line's y values, so you can't see it)
       area = d3.area()
           .x(d => x(Date.parse(d.fulfillment_date)))
@@ -388,6 +396,18 @@
           .attr("stroke-width", 1.5)
           .attr("stroke-dasharray", "6,3")
           .attr("d", projected_avg_line(data.projected_rates));
+
+      svg.append("path")
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", 1.5)
+          .attr("d", projected_max_line(data.projected_rates));
+
+      svg.append("path")
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", 1.5)
+          .attr("d", projected_min_line(data.projected_rates));
 
 
       svg.append("text")
