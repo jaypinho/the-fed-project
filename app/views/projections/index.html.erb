@@ -10,7 +10,7 @@
   <small>individual projections</small>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
-  <div id="actual-rates-chart" class="chart-div">
+  <div id="actual-rates-chart" class="chart-div" style="display:none;">
   </div>
   <div id="combined-chart" class="chart-div">
   </div>
@@ -20,7 +20,7 @@
   </div>
   <script>
 
-    d3.json("http://localhost:3000/d3_get_chart_source_data.json")
+    d3.json("http://localhost:3000/d3_get_chart_source_data.json?trim=2")
       .then(function(data) {
 
         actual_rates_chart = LineChart(data.actual_rates, {
@@ -453,7 +453,7 @@
         // combined_dots = data.projected_rates
 
         const i = d3.least(combined_values, i => Math.hypot(x(Date.parse(i.date)) - xm, y(Number(i.values)) - ym)); // closest point
-        console.log(i);
+        // console.log(i);
         dot.attr("transform", `translate(${x(Date.parse(i.date))},${y(Number(i.values))})`);
         if (title) dot.select("text").text(title(i));
         svg.property("value", i).dispatch("input", {bubbles: true});
