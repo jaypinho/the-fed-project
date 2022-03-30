@@ -35,8 +35,40 @@
 
         document.getElementById('actual-rates-chart').append(actual_rates_chart);
 
+
+
+
+        combined_values = data.actual_rates.map(a => ({
+          "date": a.rate_date,
+          "series": "Actual",
+          "values": Number(a.actual_rate)
+        }));
+        combined_values = combined_values.concat(data.projected_rates.map(a => ({
+          "date": a.fulfillment_date,
+          "series": "Median",
+          "values": Number(a.median)
+        })));
+        combined_values = combined_values.concat(data.projected_rates.map(a => ({
+          "date": a.fulfillment_date,
+          "series": "Average",
+          "values": Number(a.avg)
+        })));
+        combined_values = combined_values.concat(data.projected_rates.map(a => ({
+          "date": a.fulfillment_date,
+          "series": "Minimum",
+          "values": Number(a.min)
+        })));
+        combined_values = combined_values.concat(data.projected_rates.map(a => ({
+          "date": a.fulfillment_date,
+          "series": "Maximum",
+          "values": Number(a.max)
+        })));
+  
+        console.log(combined_values);
+
         combined_chart = drawChart(data, {
-          title: d => `Hello`
+          title: d => `${d.date}: ${Number(d.values).toFixed(2)}% (${d.series})`,
+          combined_values: combined_values
         });
         document.getElementById('combined-chart').append(combined_chart);
 
@@ -397,9 +429,13 @@
 
       function pointermoved(event) {
         const [xm, ym] = d3.pointer(event);
-        const i = d3.least(data.projected_rates, i => Math.hypot(x(Date.parse(i.fulfillment_date)) - xm, y(Number(i.median)) - ym)); // closest point
-        dot.attr("transform", `translate(${x(Date.parse(i.fulfillment_date))},${y(Number(i.median))})`);
-        if (title) dot.select("text").text(title);
+
+        // combined_dots = data.projected_rates
+
+        const i = d3.least(combined_values, i => Math.hypot(x(Date.parse(i.date)) - xm, y(Number(i.values)) - ym)); // closest point
+        console.log(i);
+        dot.attr("transform", `translate(${x(Date.parse(i.date))},${y(Number(i.values))})`);
+        if (title) dot.select("text").text(title(i));
         svg.property("value", i).dispatch("input", {bubbles: true});
       }
 
