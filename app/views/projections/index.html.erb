@@ -35,7 +35,9 @@
 
         document.getElementById('actual-rates-chart').append(actual_rates_chart);
 
-        combined_chart = drawChart(data);
+        combined_chart = drawChart(data, {
+          title: d => `Hello`
+        });
         document.getElementById('combined-chart').append(combined_chart);
 
 
@@ -45,17 +47,11 @@
         data_values = data.projected_long_term_rates.map(a => [a.min, a.max, a.avg, a.median]);
         data_values = data_values[0].flatMap((col, i) => data_values.map(row => row[i]));
 
-        console.log(date_values);
-        console.log(data_values);
-
         values = date_values.map((a, index) => ({
           "dates": a,
           "values": data_values[index],
           "series": ["Minimum", "Maximum", "Average", "Median"].map(b => Array(data.projected_long_term_rates.length).fill(b, 0)).flat()[index]
         }));
-
-        console.log(values.filter(i => i.series == "Minimum"));
-        console.log(d3.groups(values, i => i.dates));
 
         multi_line_chart = MultiLineChart(values, {
           x: d => Date.parse(d.dates),
@@ -231,7 +227,9 @@
 
     }
 
-    function drawChart(data) {
+    function drawChart(data, {
+      title = "hi"
+    } = {}) {
 
       const height = 600;
       const width = 1200;
@@ -383,14 +381,26 @@
           .attr("dy", ".35em")
           .attr("text-anchor", "start")
           .style("fill", "red")
-          .text("Average Projected Rate"); 
+          .text("Average Projected Rate");
+
+      const dot = svg.append("g")
+          .attr("display", "none");
+
+      dot.append("circle")
+          .attr("r", 2.5);
+
+      dot.append("text")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", 10)
+          .attr("text-anchor", "middle")
+          .attr("y", -8);
 
       function pointermoved(event) {
         const [xm, ym] = d3.pointer(event);
-        const i = d3.least(I, i => Math.hypot(xScale(X[i]) - xm, yScale(Y[i]) - ym)); // closest point
-        dot.attr("transform", `translate(${xScale(X[i])},${yScale(Y[i])})`);
-        if (T) dot.select("text").text("hello");
-        svg.property("value", O[i]).dispatch("input", {bubbles: true});
+        const i = d3.least(data.projected_rates, i => Math.hypot(x(Date.parse(i.fulfillment_date)) - xm, y(Number(i.median)) - ym)); // closest point
+        dot.attr("transform", `translate(${x(Date.parse(i.fulfillment_date))},${y(Number(i.median))})`);
+        if (title) dot.select("text").text(title);
+        svg.property("value", i).dispatch("input", {bubbles: true});
       }
 
       function pointerentered() {
@@ -563,8 +573,6 @@
           .style("mix-blend-mode", mixBlendMode)
           .attr("stroke", typeof color === "function" ? ([z]) => color(z) : null)
           .attr("d", ([, I]) => line(I));
-
-      console.log(data);
 
       svg.append("path")
           .attr("fill", "steelblue")
