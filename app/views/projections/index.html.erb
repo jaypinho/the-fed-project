@@ -21,7 +21,7 @@
 
     var trim = new URLSearchParams(location.search).get('trim') == null ? 0 : new URLSearchParams(location.search).get('trim');
 
-    d3.json(`http://localhost:3000/d3_get_chart_source_data.json?trim=${trim}`)
+    d3.json(`http://${window.location.host}/d3_get_chart_source_data.json?trim=${trim}`)
       .then(function(data) {
 
         actual_rates_chart = LineChart(data.actual_rates, {
