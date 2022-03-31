@@ -61,3 +61,7 @@ table#meetings-table, thead th, tbody td {
 table#meetings-table thead th, table#meetings-table tbody td {
   text-align: center;
 }
+
+table#meetings-table tbody tr.meeting-delimiter {
+  border-top: solid 2px gray;
+}

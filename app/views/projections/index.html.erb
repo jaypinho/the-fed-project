@@ -152,9 +152,14 @@
 
         var table = document.getElementById('meetings-table-body');
         table.innerHTML = '';
+        current_meeting = data.projections_by_meeting[0].present_date;
         for (i = 0; i < data.projections_by_meeting.length; i++) {
 
           var row = table.insertRow();
+          if (data.projections_by_meeting[i].present_date != current_meeting) {
+            row.classList.add('meeting-delimiter');
+          }
+          current_meeting = data.projections_by_meeting[i].present_date;
 
           var cell = row.insertCell(0);
           cell.innerHTML = data.projections_by_meeting[i].present_date;
