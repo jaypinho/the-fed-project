@@ -1,11 +1,13 @@
 <div class="col-xs-12 col-md-9" style="height:100%;">
 
   <h1><%= number_with_delimiter(Projection.count) %></h1>
-  <small>individual projections</small>
+  <small>total individual projections</small>
   <p>&nbsp;</p>
   <%= form_tag({controller: 'projections', action: 'index'}, method: 'get', id: 'trim_form', class: 'form-inline') do %>
     <div class="form-group">
     Exclude the <%= select_tag(:trim, options_for_select([0,1,2,3,4,5,6,7], params.has_key?(:trim) ? params[:trim].to_i : 0), class: "form-inline") %> max and min projections from each combination of a given FOMC meeting date and projection expiration date
+    <br>
+    <small><em id="total-filtered-projections"></em></small>
     </div>
   <% end %>
   <p>&nbsp;</p>
@@ -16,6 +18,25 @@
   <div id="long-term-projected-rates-chart" class="chart-div">
   </div>
   <div id="error-chart" class="chart-div">
+  </div>
+  <div>
+    <table id="meetings-table">
+      <thead>
+        <tr>
+          <th>Meeting Date</th>
+          <th>Projection Date</th>
+          <th>Number of Projections</th>
+          <th>Days in Advance</th>
+          <th>Min. Projected Rate</th>
+          <th>Max. Projected Rate</th>
+          <th>Avg. Projected Rate</th>
+          <th>Med. Projected Rate</th>
+        </tr>
+      </thead>
+      <tbody id="meetings-table-body">
+        
+      </tbody>
+    </table>
   </div>
   <script>
 
@@ -125,6 +146,47 @@
         });
 
         document.getElementById('error-chart').append(error_chart);
+
+        document.getElementById('total-filtered-projections').innerText = `Currently displaying ${data.total_filtered_projections} filtered projections`;
+
+
+        var table = document.getElementById('meetings-table-body');
+        table.innerHTML = '';
+        for (i = 0; i < data.projections_by_meeting.length; i++) {
+
+          var row = table.insertRow();
+
+          var cell = row.insertCell(0);
+          cell.innerHTML = data.projections_by_meeting[i].present_date;
+
+          var cell = row.insertCell(1);
+          if (data.projections_by_meeting[i].fulfillment_date == '<%= LONG_RUN_PLACEHOLDER_DATE %>') {
+            cell.innerHTML = 'Long-Term Rate';
+          } else {
+            cell.innerHTML = data.projections_by_meeting[i].fulfillment_date;
+          }
+
+          var cell = row.insertCell(2);
+          cell.innerHTML = data.projections_by_meeting[i].count;
+
+          var cell = row.insertCell(3);
+          cell.innerHTML = data.projections_by_meeting[i].days_until;
+
+          // The below '+' notation for smart rounding comes from this SO answer: https://stackoverflow.com/a/12830454/3593246
+          var cell = row.insertCell(4);
+          cell.innerHTML = +Number(data.projections_by_meeting[i].min).toFixed(3) + '%';
+
+          var cell = row.insertCell(5);
+          cell.innerHTML = +Number(data.projections_by_meeting[i].max).toFixed(3) + '%';
+
+          var cell = row.insertCell(6);
+          cell.innerHTML = +Number(data.projections_by_meeting[i].avg).toFixed(3) + '%';
+
+          var cell = row.insertCell(7);
+          cell.innerHTML = +Number(data.projections_by_meeting[i].median).toFixed(3) + '%';
+
+        }
+
 
     });
 

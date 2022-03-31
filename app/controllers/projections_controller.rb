@@ -104,7 +104,11 @@ order by DaysUntil asc, ProjectionError asc
 
       "projected_long_term_rates": Projection.select('present_date, min(projected_rate), max(projected_rate), avg(projected_rate), PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY projected_rate) As median, count(*)').where('fulfillment_date = ? AND id in (?)', LONG_RUN_PLACEHOLDER_DATE, eligible_ids).group(:present_date).order(present_date: :asc),
 
-      "projected_rates_detail": Projection.select('days_until, projection_error, sum(projection_count) As projection_total').from("(#{from_sql}) as aggregated_projected_and_actual_rates").group(:days_until, :projection_error).order('projection_total desc, days_until asc, projection_error asc')
+      "projected_rates_detail": Projection.select('days_until, projection_error, sum(projection_count) As projection_total').from("(#{from_sql}) as aggregated_projected_and_actual_rates").group(:days_until, :projection_error).order('projection_total desc, days_until asc, projection_error asc'),
+
+      "projections_by_meeting": Projection.select('present_date, fulfillment_date, min(projected_rate), max(projected_rate), avg(projected_rate), PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY projected_rate) As median, (fulfillment_date - present_date) As days_until, count(*)').where('id in (?)', eligible_ids).group(:present_date, :fulfillment_date).order(present_date: :asc, fulfillment_date: :asc),
+
+      "total_filtered_projections": eligible_ids.count
     }
 
     respond_to do |format|
