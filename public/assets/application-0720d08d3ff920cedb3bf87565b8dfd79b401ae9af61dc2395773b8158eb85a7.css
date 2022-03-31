@@ -1,0 +1,100 @@
+/* line 1, /Users/jpinho/workspace/the-fed-project/app/assets/stylesheets/members.scss */
+table .glyphicon-chevron-up {
+  color: blue;
+}
+
+/* line 5, /Users/jpinho/workspace/the-fed-project/app/assets/stylesheets/members.scss */
+table .glyphicon-chevron-down {
+  color: red;
+}
+
+/* line 9, /Users/jpinho/workspace/the-fed-project/app/assets/stylesheets/members.scss */
+table tr.inactive_member, table tr.inactive_member a {
+  color: gray;
+  font-style: italic;
+}
+/* line 5, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+html {
+  height: 100%;
+}
+
+/* line 9, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+body {
+  height: 100%;
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
+
+/* line 15, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+div#buttondiv {
+  top: 10px;
+  position: relative;
+  float: right;
+}
+
+/* line 21, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+#details {
+  background-color: #E6EBFA;
+  border-color: #B2B2B2;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 8px;
+  margin: 0px 20px 20px 20px;
+  padding: 10px;
+  display: none;
+}
+
+/* line 32, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+a.btn {
+  margin-bottom: 30px;
+}
+
+/* line 36, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+div.chart-div {
+  margin-bottom: 100px;
+}
+
+/* line 40, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+div.chart-div svg {
+  overflow: overlay;
+}
+
+/* line 44, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  padding: .2rem;
+  background: #313639;
+  color: #f9f9f9;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+  font-size: .7rem;
+}
+
+/* line 56, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+table#meetings-table, thead th, tbody td {
+  border: solid 1px gray;
+  border-collapse: collapse;
+}
+
+/* line 61, /Users/jaypinho/workspace/the-fed-project/app/assets/stylesheets/projections.scss */
+table#meetings-table thead th, table#meetings-table tbody td {
+  text-align: center;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+
+
+ */
+
