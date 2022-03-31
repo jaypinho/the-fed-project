@@ -83,12 +83,12 @@ order by DaysUntil asc, ProjectionError asc
         min(projected_rate) over (partition by present_date, fulfillment_date) As min_projected_rate,
         max(projected_rate) over (partition by present_date, fulfillment_date) As max_projected_rate,
         row_number() over (partition by present_date, fulfillment_date order by projected_rate asc) As lowest_rate_row,
-        row_number() over (partition by present_date, fulfillment_date order by projected_rate desc) As highest_rate_row
+        count(*) over (partition by present_date, fulfillment_date) as projection_count
       from projections
     )
     select *
     from revised_projections
-    where lowest_rate_row > #{trim} AND highest_rate_row > #{trim}
+    where lowest_rate_row > #{trim} AND lowest_rate_row <= (projection_count - #{trim})
     order by present_date asc, fulfillment_date, lowest_rate_row asc"
 
     
