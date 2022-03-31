@@ -98,7 +98,7 @@ order by DaysUntil asc, ProjectionError asc
     from_sql = Projection.select('present_date, fulfillment_date, projected_rate, key_rates.actual_rate, (fulfillment_date - present_date) As days_until, Abs(key_rates.actual_rate - projected_rate) As projection_error, count(*) As projection_count').joins('join key_rates on key_rates.rate_date = projections.fulfillment_date').includes(:key_rates).where('projections.fulfillment_date <> ? AND projections.id in (?)', LONG_RUN_PLACEHOLDER_DATE, eligible_ids).group('present_date, fulfillment_date, projected_rate, key_rates.actual_rate').order(present_date: :asc, fulfillment_date: :asc).to_sql
 
     json_response = {
-      "actual_rates": KeyRate.all.order(rate_date: :asc),
+      "actual_rates": KeyRate.all.select(:rate_date, :actual_rate).order(rate_date: :asc),
 
       "projected_rates": Projection.select('fulfillment_date, min(projected_rate), max(projected_rate), avg(projected_rate), PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY projected_rate) As median, count(*)').where('fulfillment_date <> ? AND id in (?)', LONG_RUN_PLACEHOLDER_DATE, eligible_ids).group(:fulfillment_date).order(fulfillment_date: :asc),
 

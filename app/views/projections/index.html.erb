@@ -5,7 +5,7 @@
   <p>&nbsp;</p>
   <%= form_tag({controller: 'projections', action: 'index'}, method: 'get', id: 'trim_form', class: 'form-inline') do %>
     <div class="form-group">
-    Exclude the <%= select_tag(:trim, options_for_select([0,1,2,3,4,5,6,7], params.has_key?(:trim) ? params[:trim].to_i : 0), class: "form-inline") %> max and min projections from each combination of a given FOMC meeting date and projection expiration date
+    For all below charts and tables, exclude the <%= select_tag(:trim, options_for_select([0,1,2,3,4,5,6,7], params.has_key?(:trim) ? params[:trim].to_i : 0), class: "form-inline") %> max and min projections from each combination of a given FOMC meeting date and projection expiration date
     <br>
     <small><em id="total-filtered-projections"></em></small>
     </div>
@@ -19,7 +19,7 @@
   </div>
   <div id="error-chart" class="chart-div">
   </div>
-  <div>
+  <div class="chart-div">
     <table id="meetings-table">
       <thead>
         <tr>
@@ -170,7 +170,11 @@
           cell.innerHTML = data.projections_by_meeting[i].count;
 
           var cell = row.insertCell(3);
-          cell.innerHTML = data.projections_by_meeting[i].days_until;
+          if (data.projections_by_meeting[i].fulfillment_date == '<%= LONG_RUN_PLACEHOLDER_DATE %>') {
+            cell.innerHTML = ' - ';
+          } else {
+            cell.innerHTML = data.projections_by_meeting[i].days_until.toLocaleString();
+          }
 
           // The below '+' notation for smart rounding comes from this SO answer: https://stackoverflow.com/a/12830454/3593246
           var cell = row.insertCell(4);

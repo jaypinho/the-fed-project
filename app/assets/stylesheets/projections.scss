@@ -52,3 +52,12 @@ div.tooltip {
      pointer-events: none;
      font-size: .7rem;
 }
+
+table#meetings-table, thead th, tbody td {
+  border: solid 1px gray;
+  border-collapse: collapse;
+}
+
+table#meetings-table thead th, table#meetings-table tbody td {
+  text-align: center;
+}
