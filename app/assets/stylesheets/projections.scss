@@ -56,12 +56,16 @@ div.tooltip {
 table#meetings-table, thead th, tbody td {
   border: solid 1px gray;
   border-collapse: collapse;
-}
-
-table#meetings-table thead th, table#meetings-table tbody td {
+  font-size: 14px;
   text-align: center;
+  padding: 3px;
+
 }
 
 table#meetings-table tbody tr.meeting-delimiter {
   border-top: solid 2px gray;
+}
+
+table#meetings-table tr:hover {
+  background-color: #e0f8f8;
 }
